@@ -6,10 +6,23 @@ type Props = {
   children: React.ReactNode;
 };
 
+const slides = [
+  "Главная",
+  "Проекты",
+  "О Зое",
+  "Услуги",
+  "Команда",
+  "Контакты",
+];
+
 export function HomePresentationScroll({ children }: Props) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
   const [slideHeight, setSlideHeight] = useState(0);
+
+  useEffect(() => {
+    document.body.dataset.slideIndex = String(index);
+  }, [index]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -34,19 +47,32 @@ export function HomePresentationScroll({ children }: Props) {
       return Math.max(0, viewport.querySelectorAll("[data-slide='true']").length - 1);
     };
 
-    const go = (direction: 1 | -1) => {
+    const goTo = (nextIndex: number) => {
       if (locked) return;
 
       locked = true;
 
-      setIndex((current) => {
-        const next = Math.max(0, Math.min(getMax(), current + direction));
-        return next;
+      setIndex(() => {
+        return Math.max(0, Math.min(getMax(), nextIndex));
       });
 
       window.setTimeout(() => {
         locked = false;
       }, 520);
+    };
+
+    const go = (direction: 1 | -1) => {
+      setIndex((current) => {
+        if (locked) return current;
+
+        locked = true;
+
+        window.setTimeout(() => {
+          locked = false;
+        }, 520);
+
+        return Math.max(0, Math.min(getMax(), current + direction));
+      });
     };
 
     const onWheel = (event: WheelEvent) => {
@@ -81,19 +107,37 @@ export function HomePresentationScroll({ children }: Props) {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("resize", updateHeight);
+      delete document.body.dataset.slideIndex;
     };
   }, []);
 
   return (
-    <div ref={viewportRef} className="presentation-viewport">
-      <div
-        className="presentation-track"
-        style={{
-          transform: `translate3d(0, -${index * slideHeight}px, 0)`,
-        }}
-      >
-        {children}
+    <>
+      <div ref={viewportRef} className="presentation-viewport">
+        <div
+          className="presentation-track"
+          style={{
+            transform: `translate3d(0, -${index * slideHeight}px, 0)`,
+          }}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+
+      <nav className="slide-nav" aria-label="Навигация по главной">
+        {slides.map((label, itemIndex) => (
+          <button
+            key={label}
+            type="button"
+            className={itemIndex === index ? "is-active" : ""}
+            onClick={() => setIndex(itemIndex)}
+            aria-label={label}
+          >
+            <span className="slide-nav-dot" />
+            <span className="slide-nav-label">{label}</span>
+          </button>
+        ))}
+      </nav>
+    </>
   );
 }
