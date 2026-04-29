@@ -39,23 +39,8 @@ export function FeaturedProjects({ locale }: Props) {
 
   return (
     <Section id="projects" className="!py-0">
-      <div className="mx-auto flex h-full w-full max-w-[92rem] flex-col">
-        <div className="mb-5 flex items-center gap-6">
-          <p className="shrink-0 text-xs uppercase tracking-[0.2em] text-[var(--tone-muted)]">
-            {isRu ? "Избранные проекты" : "Featured projects"}
-          </p>
-
-          <div className="h-px flex-1 bg-[var(--line-soft)]" />
-
-          <Link
-            href={`/projects?lang=${locale}`}
-            className="shrink-0 text-sm text-[var(--tone-muted)] transition hover:text-[var(--tone-dark)]"
-          >
-            {isRu ? "Все проекты →" : "All projects →"}
-          </Link>
-        </div>
-
-        <div className="grid flex-1 gap-7 lg:grid-cols-2 lg:grid-rows-2">
+      <div className="mx-auto flex h-full w-full max-w-[92rem] flex-col justify-center">
+        <div className="grid gap-x-8 gap-y-7 lg:grid-cols-2 lg:grid-rows-2">
           {projects.map((project, index) => (
             <Link
               key={project.title}
@@ -94,7 +79,7 @@ export function FeaturedProjects({ locale }: Props) {
           ))}
         </div>
 
-        <div className="mt-5 text-center">
+        <div className="mt-6 text-center">
           <Link
             href={`/projects?lang=${locale}`}
             className="inline-block border-b border-[var(--tone-dark)] text-sm text-[var(--tone-dark)] transition hover:text-[var(--tone-muted)]"

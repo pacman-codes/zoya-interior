@@ -863,3 +863,303 @@ header {
   font-weight: 500 !important;
 }
 
+
+/* === FINAL COMPOSITION FIX === */
+
+/* footer внутри последнего слайда всегда виден */
+.cta-slide {
+  position: relative !important;
+}
+
+.last-slide-inner {
+  position: relative !important;
+  display: flex !important;
+  height: 100% !important;
+  width: 100% !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.cta-slide footer {
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 20px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* последний блок чуть компактнее, чтобы footer не пропадал */
+.cta-slide #project-cta {
+  transform: translateY(-22px);
+}
+
+/* команда: отступ сверху меньше примерно на 60% */
+.team-slide {
+  align-items: flex-start !important;
+  padding-top: 22px !important;
+}
+
+/* услуги: такой же отступ, как команда */
+.process-slide {
+  align-items: flex-start !important;
+  padding-top: 22px !important;
+}
+
+/* проекты: без верхней горизонтали, нормальная посадка */
+.projects-slide {
+  align-items: center !important;
+  padding-top: 0 !important;
+}
+
+/* hero без верхнего и нижнего отступа */
+.presentation-slide:first-child,
+.presentation-slide:first-child > section,
+.presentation-slide:first-child #hero {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.presentation-slide:first-child #hero {
+  height: 100svh !important;
+  min-height: 100svh !important;
+}
+
+.presentation-slide:first-child #hero > * {
+  height: 100% !important;
+}
+
+/* если в Hero есть внутренний контейнер с отступами */
+#hero [class*="py-"],
+#hero [class*="pt-"],
+#hero [class*="pb-"] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* кнопка hero: при hover текст белый */
+#hero a:hover,
+#hero button:hover,
+#hero a:hover *,
+#hero button:hover * {
+  color: #fff !important;
+}
+
+/* === FINAL COMPOSITION FIX === */
+
+/* footer внутри последнего слайда всегда виден */
+.cta-slide {
+  position: relative !important;
+}
+
+.last-slide-inner {
+  position: relative !important;
+  display: flex !important;
+  height: 100% !important;
+  width: 100% !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.cta-slide footer {
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 20px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* последний блок чуть компактнее, чтобы footer не пропадал */
+.cta-slide #project-cta {
+  transform: translateY(-22px);
+}
+
+/* команда: отступ сверху меньше примерно на 60% */
+.team-slide {
+  align-items: flex-start !important;
+  padding-top: 22px !important;
+}
+
+/* услуги: такой же отступ, как команда */
+.process-slide {
+  align-items: flex-start !important;
+  padding-top: 22px !important;
+}
+
+/* проекты: без верхней горизонтали, нормальная посадка */
+.projects-slide {
+  align-items: center !important;
+  padding-top: 0 !important;
+}
+
+/* hero без верхнего и нижнего отступа */
+.presentation-slide:first-child,
+.presentation-slide:first-child > section,
+.presentation-slide:first-child #hero {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.presentation-slide:first-child #hero {
+  height: 100svh !important;
+  min-height: 100svh !important;
+}
+
+.presentation-slide:first-child #hero > * {
+  height: 100% !important;
+}
+
+/* если в Hero есть внутренний контейнер с отступами */
+#hero [class*="py-"],
+#hero [class*="pt-"],
+#hero [class*="pb-"] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* кнопка hero: при hover текст белый */
+#hero a:hover,
+#hero button:hover,
+#hero a:hover *,
+#hero button:hover * {
+  color: #fff !important;
+}
+
+/* === FIX: HERO GAP / PROJECTS OFFSET / CTA FOOTER === */
+
+/* 1. Hero: убрать зазор между header и изображением */
+.presentation-slide:first-child {
+  align-items: stretch !important;
+  padding: 0 !important;
+}
+
+.presentation-slide:first-child #hero {
+  height: 100svh !important;
+  min-height: 100svh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.presentation-slide:first-child #hero > div {
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.presentation-slide:first-child #hero [class*="rounded"] {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* 2. Проекты: такой же верхний отступ, как услуги и команда */
+.projects-slide {
+  align-items: flex-start !important;
+  padding-top: 22px !important;
+}
+
+.projects-slide #projects {
+  width: 100% !important;
+}
+
+.projects-slide #projects > div {
+  justify-content: flex-start !important;
+}
+
+/* 3. Контакты: поднять footer, чтобы он был полностью виден */
+.cta-slide #project-cta {
+  transform: translateY(-44px) !important;
+}
+
+.cta-slide footer {
+  bottom: 58px !important;
+  padding-bottom: 0 !important;
+}
+
+.cta-slide footer > div {
+  gap: 10px !important;
+}
+
+.cta-slide footer .footer-social-link {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+.cta-slide footer .footer-social-text {
+  min-width: 50px !important;
+}
+
+.cta-slide footer .text-center {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+/* === HERO GAP + BUTTONS FIX === */
+
+/* убираем внутренний верхний зазор hero */
+.presentation-slide:first-child {
+  align-items: stretch !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.presentation-slide:first-child #hero {
+  display: flex !important;
+  align-items: stretch !important;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.presentation-slide:first-child #hero > div {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* если внутри hero есть карточка/обертка изображения */
+.presentation-slide:first-child #hero > div > div {
+  width: 100% !important;
+  height: 100% !important;
+  margin-top: 0 !important;
+}
+
+/* картинка hero без верхнего отступа */
+#hero img {
+  display: block !important;
+}
+
+/* возвращаем нормальные круглые кнопки */
+#hero a,
+#hero button {
+  border-radius: 999px !important;
+  overflow: hidden !important;
+}
+
+/* фикс hover второй кнопки */
+#hero a:hover,
+#hero button:hover {
+  color: #fff !important;
+}
+
+#hero a:hover *,
+#hero button:hover * {
+  color: #fff !important;
+}
+
+/* убираем странное срезание кнопок */
+#hero a[class*="rounded"],
+#hero button[class*="rounded"] {
+  border-radius: 999px !important;
+}
+

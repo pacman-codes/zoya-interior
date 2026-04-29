@@ -38,20 +38,9 @@ export default async function Home(props: {
         </div>
 
         <div data-slide="true" className="presentation-slide cta-slide">
-          <div className="flex h-full w-full flex-col justify-between">
+          <div className="last-slide-inner">
             <ProjectCta locale={locale} />
-
-            <Footer />
-{/* old footer disabled */}
-{/* className="flex justify-between px-16 pb-8 text-sm text-[var(--tone-muted)]">
-              <div>studio 2026</div>
-
-              <div className="text-right">
-                <div>+7 988 142 5888</div>
-                <div>Telegram</div>
-                <div>vidmiaan@gmail.com</div>
-              </div>
-            */}
+            <Footer locale={locale} />
           </div>
         </div>
       </HomePresentationScroll>
