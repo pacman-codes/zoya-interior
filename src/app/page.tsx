@@ -21,7 +21,7 @@ export default async function Home(props: {
           <Hero locale={locale} />
         </div>
 
-        <div data-slide="true" className="presentation-slide projects-slide">
+        <div data-slide="true" className="presentation-slide section-top-tight">
           <FeaturedProjects locale={locale} />
         </div>
 
@@ -29,18 +29,20 @@ export default async function Home(props: {
           <ZoyaIntro locale={locale} />
         </div>
 
-        <div data-slide="true" className="presentation-slide process-slide">
+        <div data-slide="true" className="presentation-slide section-top-tight">
           <Process locale={locale} />
         </div>
 
-        <div data-slide="true" className="presentation-slide team-slide">
+        <div data-slide="true" className="presentation-slide section-top-tight">
           <Team locale={locale} />
         </div>
 
-        <div data-slide="true" className="presentation-slide cta-slide">
+        <div data-slide="true" className="presentation-slide">
           <div className="last-slide-inner">
             <ProjectCta locale={locale} />
-            <Footer locale={locale} />
+            <div className="absolute bottom-10 left-0 right-0">
+              <Footer locale={locale} />
+            </div>
           </div>
         </div>
       </HomePresentationScroll>

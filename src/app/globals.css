@@ -3,15 +3,25 @@
 :root {
   --bg-main: #f5f1ea;
   --tone-dark: #2f2923;
-  --tone-mid: #7d7268;
+  --tone-mid: #6f665e;
   --tone-muted: #9b9188;
   --line-soft: rgba(47, 41, 35, 0.18);
+
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Inter", sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
+  min-height: 100%;
   background: var(--bg-main);
   color: var(--tone-dark);
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 
@@ -20,14 +30,37 @@ a {
   text-decoration: none;
 }
 
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
 img {
   max-width: 100%;
 }
 
-/* compact header */
+.font-display,
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+/* Header only on first slide */
 header {
-  height: 44px !important;
-  min-height: 44px !important;
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  min-height: 44px;
+  transition: opacity 240ms ease, transform 240ms ease;
 }
 
 header > * {
@@ -40,8 +73,16 @@ header button {
   font-size: 11px !important;
 }
 
-/* real home presentation snap */
+body[data-slide-index]:not([data-slide-index="0"]) header {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+
+/* Presentation system */
+html:has(.presentation-viewport),
 body:has(.presentation-viewport) {
+  height: 100%;
   overflow: hidden !important;
 }
 
@@ -50,87 +91,127 @@ body:has(.presentation-viewport) > div > footer {
 }
 
 .presentation-viewport {
-  --slide-height: calc(100svh - 44px);
-  height: var(--slide-height);
+  height: 100svh;
   overflow: hidden;
+  position: relative;
 }
 
 .presentation-track {
-  transform: translate3d(0, calc(var(--slide-index) * -1 * var(--slide-height)), 0);
-  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
+  height: auto;
+  transition: transform 380ms cubic-bezier(0.45, 0, 0.15, 1);
   will-change: transform;
 }
 
 .presentation-slide {
-  height: var(--slide-height);
-  min-height: var(--slide-height);
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.presentation-slide > section {
+.presentation-slide > section,
+.presentation-slide > div {
   width: 100%;
 }
 
-#hero {
-  padding-top: 12px !important;
-  padding-bottom: 18px !important;
+.presentation-slide:not(:first-child) {
+  padding-left: 64px;
+  padding-right: 64px;
 }
 
-.projects-slide {
-  align-items: flex-start !important;
-  padding-top: 72px !important;
+.section-top-tight {
+  padding-top: 22px;
 }
 
-.process-slide {
-  align-items: flex-start !important;
-  padding-top: 42px !important;
-}
-
-.team-slide {
-  align-items: flex-start !important;
-  padding-top: 54px !important;
-}
-
-.cta-slide #project-cta {
-  display: flex !important;
-  align-items: center !important;
-}
-
-/* footer icons */
-.footer-social-link {
-  display: inline-flex;
-  width: 42px;
-  height: 42px;
-  align-items: center;
+.last-slide-inner {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
   justify-content: center;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  color: var(--tone-muted);
+}
+
+/* Left minimal navigation */
+.slide-nav {
+  position: fixed;
+  z-index: 80;
+  top: 50%;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  transform: translateY(-50%);
+  padding: 18px 9px;
+  border-radius: 26px;
+  background: transparent;
   transition:
-    transform 220ms ease,
-    color 220ms ease,
-    border-color 220ms ease,
-    opacity 220ms ease;
+    background 220ms ease,
+    padding 220ms ease,
+    box-shadow 220ms ease,
+    backdrop-filter 220ms ease;
 }
 
-.footer-social-link:hover {
-  transform: translateY(-3px) scale(1.04);
-  color: var(--tone-dark);
-  border-color: var(--tone-dark);
+.slide-nav:hover {
+  padding: 20px 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 25px 80px rgba(47, 41, 35, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
 }
 
-.footer-social-text {
-  width: auto;
-  min-width: 54px;
-  padding: 0 14px;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+.slide-nav button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+  color: #1e1e1e;
+  cursor: pointer;
+  padding: 3px 0;
+}
+
+.slide-nav-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(30, 30, 30, 0.35);
+}
+
+.slide-nav button.is-active .slide-nav-dot {
+  width: 22px;
+  height: 4px;
+  background: #5f75ff;
+}
+
+.slide-nav-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  color: #1e1e1e;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  transition: max-width 220ms ease, opacity 220ms ease;
 }
 
-/* soft motion */
+.slide-nav:hover .slide-nav-label {
+  max-width: 110px;
+  opacity: 1;
+}
+
+/* Shared effects */
 .reveal-block {
   animation: softReveal 700ms ease both;
 }
@@ -140,41 +221,30 @@ body:has(.presentation-viewport) > div > footer {
     opacity: 0;
     transform: translateY(18px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.team-image img,
-#projects img,
-#services-process img {
-  transition:
-    transform 700ms ease,
-    filter 700ms ease;
-}
-
-.team-image:hover img,
-#projects a:hover img,
-#services-process article:hover img {
-  transform: scale(1.035);
-  filter: saturate(0.92) contrast(1.03);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .reveal-block,
-  .team-image img,
-  #projects img,
-  #services-process img,
-  .footer-social-link {
+  .presentation-track,
+  .reveal-block {
     animation: none !important;
     transition: none !important;
   }
 }
 
 @media (max-width: 768px) {
+  html:has(.presentation-viewport),
   body:has(.presentation-viewport) {
+    height: auto;
     overflow: auto !important;
+  }
+
+  header {
+    position: sticky;
   }
 
   .presentation-viewport {
@@ -190,976 +260,17 @@ body:has(.presentation-viewport) > div > footer {
   .presentation-slide {
     height: auto;
     min-height: auto;
+    max-height: none;
     overflow: visible;
     display: block;
   }
-}
 
-/* === FONTS === */
-
-:root {
-  --font-display: "Playfair Display", serif;
-  --font-body: "Inter", sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-}
-
-.font-display {
-  font-family: var(--font-display);
-}
-
-/* === SNAP FIX OVERRIDE === */
-
-:root {
-  --font-display: "Manrope", sans-serif;
-  --font-body: "Manrope", sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-}
-
-.font-display {
-  font-family: var(--font-display);
-}
-
-body:has(.presentation-viewport) {
-  overflow: hidden !important;
-}
-
-.presentation-viewport {
-  --slide-height: calc(100svh - 44px);
-  height: var(--slide-height) !important;
-  overflow: hidden !important;
-}
-
-.presentation-track {
-  height: auto !important;
-  transform: translate3d(0, 0, 0);
-  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1) !important;
-  will-change: transform;
-}
-
-.presentation-slide {
-  height: var(--slide-height) !important;
-  min-height: var(--slide-height) !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-.presentation-slide > section,
-.presentation-slide > div {
-  width: 100%;
-}
-
-@media (max-width: 768px) {
-  body:has(.presentation-viewport) {
-    overflow: auto !important;
-  }
-
-  .presentation-viewport {
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  .presentation-track {
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .presentation-slide {
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-    display: block !important;
-  }
-}
-
-/* === HARD PRESENTATION SNAP FIX === */
-
-html:has(.presentation-viewport),
-body:has(.presentation-viewport) {
-  overflow: hidden !important;
-  height: 100% !important;
-}
-
-.presentation-viewport {
-  height: calc(100svh - 44px) !important;
-  max-height: calc(100svh - 44px) !important;
-  overflow: hidden !important;
-  position: relative !important;
-}
-
-.presentation-track {
-  height: auto !important;
-  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1) !important;
-  will-change: transform !important;
-}
-
-.presentation-slide {
-  height: calc(100svh - 44px) !important;
-  min-height: calc(100svh - 44px) !important;
-  max-height: calc(100svh - 44px) !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-.presentation-slide > section,
-.presentation-slide > div {
-  width: 100% !important;
-}
-
-@media (max-width: 768px) {
-  html:has(.presentation-viewport),
-  body:has(.presentation-viewport) {
-    overflow: auto !important;
-    height: auto !important;
-  }
-
-  .presentation-viewport {
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  .presentation-track {
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .presentation-slide {
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    display: block !important;
-  }
-}
-
-/* === SIMPLE DESIGNER TYPOGRAPHY === */
-
-:root {
-  --font-display: "Manrope", sans-serif;
-  --font-body: "Manrope", sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-  letter-spacing: -0.01em;
-}
-
-.font-display {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-}
-
-h1,
-h2,
-h3 {
-  letter-spacing: -0.045em;
-}
-
-/* === LIGHT DESIGN TYPOGRAPHY === */
-
-:root {
-  --font-display: "Outfit", sans-serif;
-  --font-body: "Outfit", sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-  letter-spacing: -0.01em;
-}
-
-.font-display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  letter-spacing: -0.03em;
-}
-
-h2,
-h3 {
-  letter-spacing: -0.02em;
-}
-
-/* === RESTORE ORIGINAL TYPOGRAPHY === */
-
-:root {
-  --font-display: inherit;
-  --font-body: inherit;
-}
-
-body {
-  font-family: inherit;
-  letter-spacing: normal;
-}
-
-.font-display {
-  font-family: inherit;
-  font-weight: inherit;
-  letter-spacing: inherit;
-}
-
-h1,
-h2,
-h3 {
-  letter-spacing: inherit;
-}
-
-/* === INTERIOR EDITORIAL TYPOGRAPHY === */
-
-:root {
-  --font-display: "Cormorant Garamond", serif;
-  --font-body: "Inter", sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-  letter-spacing: -0.01em;
-}
-
-.font-display {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.035em;
-}
-
-h1,
-h2,
-h3 {
-  letter-spacing: -0.035em;
-}
-
-/* === GLOBAL SITE TYPOGRAPHY === */
-
-html,
-body,
-button,
-input,
-textarea,
-select {
-  font-family: var(--font-body) !important;
-}
-
-.font-display,
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display) !important;
-}
-
-/* === HOME EDGE PADDING EXCEPT HERO === */
-
-.presentation-slide:not(:first-child) {
-  padding-left: 56px !important;
-  padding-right: 56px !important;
-  box-sizing: border-box;
-}
-
-.presentation-slide:first-child {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* === HERO SECONDARY CTA HOVER FIX === */
-
-#hero a:hover,
-#hero button:hover {
-  color: #fff !important;
-}
-
-#hero a:hover *,
-#hero button:hover * {
-  color: #fff !important;
-}
-
-@media (max-width: 768px) {
   .presentation-slide:not(:first-child) {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 20px;
+    padding-right: 20px;
   }
-}
 
-/* === FULLSCREEN / HEADER / SPACING POLISH === */
-
-body[data-slide-index]:not([data-slide-index="0"]) header {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-100%);
-}
-
-header {
-  transition: opacity 240ms ease, transform 240ms ease;
-}
-
-.presentation-viewport {
-  height: 100svh !important;
-  max-height: 100svh !important;
-}
-
-.presentation-slide {
-  height: 100svh !important;
-  min-height: 100svh !important;
-  max-height: 100svh !important;
-}
-
-.presentation-slide:first-child {
-  padding: 0 !important;
-}
-
-.presentation-slide:first-child > section,
-.presentation-slide:first-child #hero {
-  height: 100svh !important;
-  min-height: 100svh !important;
-  padding: 0 !important;
-}
-
-.presentation-slide:first-child #hero > * {
-  height: 100% !important;
-}
-
-.presentation-slide:not(:first-child) {
-  padding-left: 64px !important;
-  padding-right: 64px !important;
-  box-sizing: border-box;
-}
-
-.projects-slide,
-.process-slide,
-.team-slide {
-  align-items: flex-start !important;
-  padding-top: 26px !important;
-}
-
-.process-slide #services-process,
-.team-slide #team,
-.projects-slide #projects {
-  width: 100% !important;
-}
-
-/* === CTA + FOOTER CONTRAST === */
-
-.cta-slide,
-.cta-slide p,
-.cta-slide a,
-.cta-slide span,
-.cta-slide footer {
-  color: var(--tone-dark) !important;
-}
-
-.cta-slide input,
-.cta-slide input::placeholder,
-.cta-slide label span {
-  color: var(--tone-muted) !important;
-}
-
-.cta-slide input {
-  border-color: var(--line-soft) !important;
-}
-
-.cta-slide input:focus {
-  color: var(--tone-dark) !important;
-  border-color: var(--tone-dark) !important;
-}
-
-.cta-slide footer {
-  padding-bottom: 28px !important;
-}
-
-.cta-slide .footer-social-link {
-  color: var(--tone-dark) !important;
-  border-color: rgba(47, 41, 35, 0.32) !important;
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.cta-slide .footer-social-link:hover {
-  background: var(--tone-dark);
-  color: #fff !important;
-}
-
-/* === MINIMAL SLIDE NAV === */
-
-.slide-nav {
-  position: fixed;
-  z-index: 80;
-  top: 50%;
-  right: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transform: translateY(-50%);
-  padding: 18px 10px;
-  border-radius: 999px;
-  background: transparent;
-  transition: background 220ms ease, padding 220ms ease;
-}
-
-.slide-nav:hover {
-  padding: 20px 16px;
-  background: rgba(26, 26, 26, 0.88);
-  backdrop-filter: blur(12px);
-}
-
-.slide-nav button {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  width: auto;
-  border: 0;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.72);
-  cursor: pointer;
-  padding: 3px 0;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-.slide-nav-dot {
-  width: 18px;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(47, 41, 35, 0.28);
-  transition: width 220ms ease, background 220ms ease;
-}
-
-.slide-nav:hover .slide-nav-dot {
-  background: rgba(255, 255, 255, 0.34);
-}
-
-.slide-nav button.is-active .slide-nav-dot {
-  width: 24px;
-  background: #4c82ff;
-}
-
-.slide-nav-label {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  opacity: 0;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: max-width 220ms ease, opacity 220ms ease;
-}
-
-.slide-nav:hover .slide-nav-label {
-  max-width: 90px;
-  opacity: 1;
-}
-
-.slide-nav button:hover .slide-nav-dot {
-  background: #4c82ff;
-}
-
-.slide-nav button:hover .slide-nav-label {
-  color: #fff;
-}
-
-/* === HERO BUTTON HOVER FIX === */
-
-#hero a:hover,
-#hero button:hover {
-  color: #fff !important;
-}
-
-#hero a:hover *,
-#hero button:hover * {
-  color: #fff !important;
-}
-
-@media (max-width: 768px) {
   .slide-nav {
     display: none;
   }
-
-  .presentation-slide:not(:first-child) {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-  }
 }
-
-/* === FASTER SNAP + LEFT LIQUID GLASS NAV === */
-
-.presentation-track {
-  transition: transform 380ms cubic-bezier(0.45, 0, 0.15, 1) !important;
-}
-
-.slide-nav {
-  left: 22px !important;
-  right: auto !important;
-  padding: 18px 9px !important;
-  background: rgba(255, 255, 255, 0.24) !important;
-  border: 1px solid rgba(255, 255, 255, 0.34);
-  box-shadow:
-    0 18px 60px rgba(47, 41, 35, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(18px) saturate(1.25);
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
-}
-
-.slide-nav:hover {
-  padding: 20px 16px !important;
-  background: rgba(255, 255, 255, 0.34) !important;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.slide-nav button {
-  color: rgba(47, 41, 35, 0.72) !important;
-}
-
-.slide-nav-dot {
-  background: rgba(47, 41, 35, 0.34) !important;
-}
-
-.slide-nav:hover .slide-nav-dot {
-  background: rgba(47, 41, 35, 0.32) !important;
-}
-
-.slide-nav button.is-active .slide-nav-dot,
-.slide-nav button:hover .slide-nav-dot {
-  background: #7a8fff !important;
-}
-
-.slide-nav button:hover .slide-nav-label {
-  color: var(--tone-dark) !important;
-}
-
-.slide-nav-label {
-  color: rgba(47, 41, 35, 0.76) !important;
-}
-
-/* === NAV FIX (ALIGN + CLEAN GLASS) === */
-
-.slide-nav {
-  align-items: flex-start !important;
-  border-radius: 26px !important; /* было слишком круглое */
-  background: transparent !important; /* убираем плашку в неактиве */
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-}
-
-/* активный hover — появляется glass */
-.slide-nav:hover {
-  background: rgba(255, 255, 255, 0.32) !important;
-  border: 1px solid rgba(255,255,255,0.45);
-  box-shadow:
-    0 18px 60px rgba(47,41,35,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-/* кнопки строго по левому краю */
-.slide-nav button {
-  justify-content: flex-start !important;
-  width: 100%;
-  padding-left: 2px;
-}
-
-/* полоски выравниваем */
-.slide-nav-dot {
-  width: 18px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-
-/* текст */
-.slide-nav-label {
-  text-align: left;
-}
-
-/* активный элемент */
-.slide-nav button.is-active .slide-nav-dot {
-  width: 22px;
-  background: #6f86ff !important;
-}
-
-
-/* === NAV: STRONG GLASS + BLACK TEXT === */
-
-.slide-nav {
-  color: #1e1e1e !important;
-}
-
-.slide-nav-label {
-  color: #1e1e1e !important;
-}
-
-.slide-nav button {
-  color: #1e1e1e !important;
-}
-
-/* усиленный glass при hover */
-.slide-nav:hover {
-  background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(28px) saturate(1.4) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(1.4) !important;
-
-  border: 1px solid rgba(255,255,255,0.6) !important;
-
-  box-shadow:
-    0 25px 80px rgba(47,41,35,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.7);
-}
-
-/* линии темнее */
-.slide-nav-dot {
-  background: rgba(30,30,30,0.35) !important;
-}
-
-.slide-nav:hover .slide-nav-dot {
-  background: rgba(30,30,30,0.45) !important;
-}
-
-/* активная */
-.slide-nav button.is-active .slide-nav-dot {
-  background: #5f75ff !important;
-}
-
-
-/* === NAV: DOTS + BOLDER TEXT === */
-
-/* точки вместо полос */
-.slide-nav-dot {
-  width: 6px !important;
-  height: 6px !important;
-  border-radius: 50% !important;
-  background: rgba(30,30,30,0.35) !important;
-}
-
-/* при hover чуть заметнее */
-.slide-nav:hover .slide-nav-dot {
-  background: rgba(30,30,30,0.5) !important;
-}
-
-/* активная — вытянутая (оставляем акцент) */
-.slide-nav button.is-active .slide-nav-dot {
-  width: 22px !important;
-  height: 4px !important;
-  border-radius: 999px !important;
-  background: #5f75ff !important;
-}
-
-/* текст жирнее */
-.slide-nav-label {
-  font-weight: 500 !important;
-  letter-spacing: 0.02em;
-}
-
-/* ещё чуть плотнее */
-.slide-nav button {
-  font-weight: 500 !important;
-}
-
-
-/* === FINAL COMPOSITION FIX === */
-
-/* footer внутри последнего слайда всегда виден */
-.cta-slide {
-  position: relative !important;
-}
-
-.last-slide-inner {
-  position: relative !important;
-  display: flex !important;
-  height: 100% !important;
-  width: 100% !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-}
-
-.cta-slide footer {
-  display: block !important;
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 20px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* последний блок чуть компактнее, чтобы footer не пропадал */
-.cta-slide #project-cta {
-  transform: translateY(-22px);
-}
-
-/* команда: отступ сверху меньше примерно на 60% */
-.team-slide {
-  align-items: flex-start !important;
-  padding-top: 22px !important;
-}
-
-/* услуги: такой же отступ, как команда */
-.process-slide {
-  align-items: flex-start !important;
-  padding-top: 22px !important;
-}
-
-/* проекты: без верхней горизонтали, нормальная посадка */
-.projects-slide {
-  align-items: center !important;
-  padding-top: 0 !important;
-}
-
-/* hero без верхнего и нижнего отступа */
-.presentation-slide:first-child,
-.presentation-slide:first-child > section,
-.presentation-slide:first-child #hero {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-.presentation-slide:first-child #hero {
-  height: 100svh !important;
-  min-height: 100svh !important;
-}
-
-.presentation-slide:first-child #hero > * {
-  height: 100% !important;
-}
-
-/* если в Hero есть внутренний контейнер с отступами */
-#hero [class*="py-"],
-#hero [class*="pt-"],
-#hero [class*="pb-"] {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* кнопка hero: при hover текст белый */
-#hero a:hover,
-#hero button:hover,
-#hero a:hover *,
-#hero button:hover * {
-  color: #fff !important;
-}
-
-/* === FINAL COMPOSITION FIX === */
-
-/* footer внутри последнего слайда всегда виден */
-.cta-slide {
-  position: relative !important;
-}
-
-.last-slide-inner {
-  position: relative !important;
-  display: flex !important;
-  height: 100% !important;
-  width: 100% !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-}
-
-.cta-slide footer {
-  display: block !important;
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 20px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* последний блок чуть компактнее, чтобы footer не пропадал */
-.cta-slide #project-cta {
-  transform: translateY(-22px);
-}
-
-/* команда: отступ сверху меньше примерно на 60% */
-.team-slide {
-  align-items: flex-start !important;
-  padding-top: 22px !important;
-}
-
-/* услуги: такой же отступ, как команда */
-.process-slide {
-  align-items: flex-start !important;
-  padding-top: 22px !important;
-}
-
-/* проекты: без верхней горизонтали, нормальная посадка */
-.projects-slide {
-  align-items: center !important;
-  padding-top: 0 !important;
-}
-
-/* hero без верхнего и нижнего отступа */
-.presentation-slide:first-child,
-.presentation-slide:first-child > section,
-.presentation-slide:first-child #hero {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-.presentation-slide:first-child #hero {
-  height: 100svh !important;
-  min-height: 100svh !important;
-}
-
-.presentation-slide:first-child #hero > * {
-  height: 100% !important;
-}
-
-/* если в Hero есть внутренний контейнер с отступами */
-#hero [class*="py-"],
-#hero [class*="pt-"],
-#hero [class*="pb-"] {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* кнопка hero: при hover текст белый */
-#hero a:hover,
-#hero button:hover,
-#hero a:hover *,
-#hero button:hover * {
-  color: #fff !important;
-}
-
-/* === FIX: HERO GAP / PROJECTS OFFSET / CTA FOOTER === */
-
-/* 1. Hero: убрать зазор между header и изображением */
-.presentation-slide:first-child {
-  align-items: stretch !important;
-  padding: 0 !important;
-}
-
-.presentation-slide:first-child #hero {
-  height: 100svh !important;
-  min-height: 100svh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.presentation-slide:first-child #hero > div {
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.presentation-slide:first-child #hero [class*="rounded"] {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-
-/* 2. Проекты: такой же верхний отступ, как услуги и команда */
-.projects-slide {
-  align-items: flex-start !important;
-  padding-top: 22px !important;
-}
-
-.projects-slide #projects {
-  width: 100% !important;
-}
-
-.projects-slide #projects > div {
-  justify-content: flex-start !important;
-}
-
-/* 3. Контакты: поднять footer, чтобы он был полностью виден */
-.cta-slide #project-cta {
-  transform: translateY(-44px) !important;
-}
-
-.cta-slide footer {
-  bottom: 58px !important;
-  padding-bottom: 0 !important;
-}
-
-.cta-slide footer > div {
-  gap: 10px !important;
-}
-
-.cta-slide footer .footer-social-link {
-  width: 38px !important;
-  height: 38px !important;
-}
-
-.cta-slide footer .footer-social-text {
-  min-width: 50px !important;
-}
-
-.cta-slide footer .text-center {
-  font-size: 13px !important;
-  line-height: 1.45 !important;
-}
-
-/* === HERO GAP + BUTTONS FIX === */
-
-/* убираем внутренний верхний зазор hero */
-.presentation-slide:first-child {
-  align-items: stretch !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.presentation-slide:first-child #hero {
-  display: flex !important;
-  align-items: stretch !important;
-  height: 100svh !important;
-  min-height: 100svh !important;
-  width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.presentation-slide:first-child #hero > div {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* если внутри hero есть карточка/обертка изображения */
-.presentation-slide:first-child #hero > div > div {
-  width: 100% !important;
-  height: 100% !important;
-  margin-top: 0 !important;
-}
-
-/* картинка hero без верхнего отступа */
-#hero img {
-  display: block !important;
-}
-
-/* возвращаем нормальные круглые кнопки */
-#hero a,
-#hero button {
-  border-radius: 999px !important;
-  overflow: hidden !important;
-}
-
-/* фикс hover второй кнопки */
-#hero a:hover,
-#hero button:hover {
-  color: #fff !important;
-}
-
-#hero a:hover *,
-#hero button:hover * {
-  color: #fff !important;
-}
-
-/* убираем странное срезание кнопок */
-#hero a[class*="rounded"],
-#hero button[class*="rounded"] {
-  border-radius: 999px !important;
-}
-
