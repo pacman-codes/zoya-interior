@@ -1,30 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export function HomePresentationScroll({ children }: Props) {
+  const viewportRef = useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
+  const [slideHeight, setSlideHeight] = useState(0);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const updateHeight = () => {
+      setSlideHeight(viewport.clientHeight);
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     let locked = false;
+
+    const getMax = () => {
+      return Math.max(0, viewport.querySelectorAll("[data-slide='true']").length - 1);
+    };
 
     const go = (direction: 1 | -1) => {
       if (locked) return;
 
-      const slides = document.querySelectorAll("[data-slide='true']");
-      const max = slides.length - 1;
-
       locked = true;
 
       setIndex((current) => {
-        return Math.max(0, Math.min(max, current + direction));
+        const next = Math.max(0, Math.min(getMax(), current + direction));
+        return next;
       });
 
       window.setTimeout(() => {
@@ -34,14 +51,15 @@ export function HomePresentationScroll({ children }: Props) {
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
+      event.stopPropagation();
 
-      if (Math.abs(event.deltaY) < 10) return;
+      if (Math.abs(event.deltaY) < 6) return;
 
       go(event.deltaY > 0 ? 1 : -1);
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowDown" || event.key === "PageDown") {
+      if (event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
         event.preventDefault();
         go(1);
       }
@@ -52,21 +70,27 @@ export function HomePresentationScroll({ children }: Props) {
       }
     };
 
+    viewport.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      viewport.removeEventListener("wheel", onWheel);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", updateHeight);
     };
   }, []);
 
   return (
-    <div className="presentation-viewport">
+    <div ref={viewportRef} className="presentation-viewport">
       <div
         className="presentation-track"
-        style={{ "--slide-index": index } as React.CSSProperties}
+        style={{
+          transform: `translate3d(0, -${index * slideHeight}px, 0)`,
+        }}
       >
         {children}
       </div>

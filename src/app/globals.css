@@ -209,3 +209,283 @@ body {
 .font-display {
   font-family: var(--font-display);
 }
+
+/* === SNAP FIX OVERRIDE === */
+
+:root {
+  --font-display: "Manrope", sans-serif;
+  --font-body: "Manrope", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+body:has(.presentation-viewport) {
+  overflow: hidden !important;
+}
+
+.presentation-viewport {
+  --slide-height: calc(100svh - 44px);
+  height: var(--slide-height) !important;
+  overflow: hidden !important;
+}
+
+.presentation-track {
+  height: auto !important;
+  transform: translate3d(0, 0, 0);
+  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform;
+}
+
+.presentation-slide {
+  height: var(--slide-height) !important;
+  min-height: var(--slide-height) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.presentation-slide > section,
+.presentation-slide > div {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  body:has(.presentation-viewport) {
+    overflow: auto !important;
+  }
+
+  .presentation-viewport {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .presentation-track {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .presentation-slide {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+}
+
+/* === HARD PRESENTATION SNAP FIX === */
+
+html:has(.presentation-viewport),
+body:has(.presentation-viewport) {
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+.presentation-viewport {
+  height: calc(100svh - 44px) !important;
+  max-height: calc(100svh - 44px) !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.presentation-track {
+  height: auto !important;
+  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform !important;
+}
+
+.presentation-slide {
+  height: calc(100svh - 44px) !important;
+  min-height: calc(100svh - 44px) !important;
+  max-height: calc(100svh - 44px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.presentation-slide > section,
+.presentation-slide > div {
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  html:has(.presentation-viewport),
+  body:has(.presentation-viewport) {
+    overflow: auto !important;
+    height: auto !important;
+  }
+
+  .presentation-viewport {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .presentation-track {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .presentation-slide {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+}
+
+/* === SIMPLE DESIGNER TYPOGRAPHY === */
+
+:root {
+  --font-display: "Manrope", sans-serif;
+  --font-body: "Manrope", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.045em;
+}
+
+/* === LIGHT DESIGN TYPOGRAPHY === */
+
+:root {
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Outfit", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  letter-spacing: -0.03em;
+}
+
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+/* === RESTORE ORIGINAL TYPOGRAPHY === */
+
+:root {
+  --font-display: inherit;
+  --font-body: inherit;
+}
+
+body {
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+.font-display {
+  font-family: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: inherit;
+}
+
+/* === INTERIOR EDITORIAL TYPOGRAPHY === */
+
+:root {
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.035em;
+}
+
+/* === GLOBAL SITE TYPOGRAPHY === */
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body) !important;
+}
+
+.font-display,
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display) !important;
+}
+
+/* === HOME EDGE PADDING EXCEPT HERO === */
+
+.presentation-slide:not(:first-child) {
+  padding-left: 56px !important;
+  padding-right: 56px !important;
+  box-sizing: border-box;
+}
+
+.presentation-slide:first-child {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* === HERO SECONDARY CTA HOVER FIX === */
+
+#hero a:hover,
+#hero button:hover {
+  color: #fff !important;
+}
+
+#hero a:hover *,
+#hero button:hover * {
+  color: #fff !important;
+}
+
+@media (max-width: 768px) {
+  .presentation-slide:not(:first-child) {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
