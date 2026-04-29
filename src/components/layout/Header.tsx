@@ -1,54 +1,34 @@
-import { Suspense } from "react";
+"use client";
+
 import Link from "next/link";
-import { navigationItems } from "@/config/navigation";
-import { type Locale } from "@/i18n";
-import { t } from "@/lib/i18n";
-import { withLang } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
-type HeaderProps = {
-  locale: Locale;
-};
-
-const RU_LABELS_BY_HREF: Record<string, string> = {
-  "/projects": "Проекты",
-  "/services": "Услуги",
-  "/contact": "Контакты",
-};
-
-export function Header({ locale }: HeaderProps) {
-  const getLabel = (href: string, key: string) => {
-    const translated = t(locale, key);
-    if (locale === "ru" && href in RU_LABELS_BY_HREF) {
-      return RU_LABELS_BY_HREF[href];
-    }
-    return translated;
-  };
+export function Header({ locale }: { locale: "ru" | "en" }) {
+  const items = [
+    { href: "/", ru: "Studio", en: "Studio" },
+    { href: "/projects", ru: "Проекты", en: "Projects" },
+    { href: "/services", ru: "Услуги", en: "Services" },
+    { href: "/contact", ru: "Контакты", en: "Contacts" },
+  ];
 
   return (
-    <header className="hidden lg:flex border-b border-[var(--line-soft)] bg-[rgb(253_249_246_/_82%)] backdrop-blur-xl lg:sticky lg:top-0 lg:z-40">
-      <div className="container-shell flex w-full max-w-full min-w-0 flex-col gap-3 py-3 sm:py-4 lg:flex-row lg:items-center lg:justify-between">
-        <nav className="flex w-full max-w-full min-w-0 flex-wrap items-center gap-1.5 sm:gap-2">
-          {navigationItems.map((item) => (
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/5 bg-[var(--bg-main)]/80 backdrop-blur-md">
+      <div className="relative mx-auto flex h-11 max-w-[1200px] items-center px-6">
+        <nav className="absolute left-1/2 flex -translate-x-1/2 items-center gap-10 text-[11px] uppercase tracking-[0.18em] text-[var(--tone-dark)]">
+          {items.map((item) => (
             <Link
               key={item.href}
-              href={withLang(item.href, locale)}
-              className="min-w-0 max-w-full rounded-full px-2.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--tone-muted)] transition-all duration-300 hover:bg-white hover:text-[var(--tone-dark)] sm:px-3 sm:text-[11px]"
+              href={`${item.href}?lang=${locale}`}
+              className="transition hover:opacity-60"
             >
-              {getLabel(item.href, item.labelKey)}
+              {locale === "ru" ? item.ru : item.en}
             </Link>
           ))}
         </nav>
 
-        <Suspense
-          fallback={
-            <div className="inline-flex min-h-9 w-fit items-center self-start rounded-full border border-[var(--tone-mid)]/55 bg-white/70 px-3 text-[11px] uppercase tracking-[0.12em] text-[var(--tone-muted)] lg:self-auto">
-              {locale}
-            </div>
-          }
-        >
+        <div className="ml-auto">
           <LanguageSwitcher locale={locale} />
-        </Suspense>
+        </div>
       </div>
     </header>
   );

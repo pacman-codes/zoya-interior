@@ -274,3 +274,30 @@ body:has(.presentation-viewport) > div > footer {
     display: none;
   }
 }
+
+/* === HERO CTA READABILITY FIX === */
+
+#hero a[href="#contact"],
+#hero a[href*="contact"] {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--tone-dark) !important;
+  border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+}
+
+#hero a[href="#contact"]:hover,
+#hero a[href*="contact"]:hover {
+  background: var(--tone-dark) !important;
+  color: #fff !important;
+  border-color: var(--tone-dark) !important;
+}
+
+#hero a[href="#contact"]:hover *,
+#hero a[href*="contact"]:hover * {
+  color: #fff !important;
+}
+
+#hero a:first-of-type {
+  background: var(--tone-dark) !important;
+  color: #fff !important;
+}
