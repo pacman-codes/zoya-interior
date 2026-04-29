@@ -688,3 +688,178 @@ header {
     padding-right: 20px !important;
   }
 }
+
+/* === FASTER SNAP + LEFT LIQUID GLASS NAV === */
+
+.presentation-track {
+  transition: transform 380ms cubic-bezier(0.45, 0, 0.15, 1) !important;
+}
+
+.slide-nav {
+  left: 22px !important;
+  right: auto !important;
+  padding: 18px 9px !important;
+  background: rgba(255, 255, 255, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow:
+    0 18px 60px rgba(47, 41, 35, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+}
+
+.slide-nav:hover {
+  padding: 20px 16px !important;
+  background: rgba(255, 255, 255, 0.34) !important;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.slide-nav button {
+  color: rgba(47, 41, 35, 0.72) !important;
+}
+
+.slide-nav-dot {
+  background: rgba(47, 41, 35, 0.34) !important;
+}
+
+.slide-nav:hover .slide-nav-dot {
+  background: rgba(47, 41, 35, 0.32) !important;
+}
+
+.slide-nav button.is-active .slide-nav-dot,
+.slide-nav button:hover .slide-nav-dot {
+  background: #7a8fff !important;
+}
+
+.slide-nav button:hover .slide-nav-label {
+  color: var(--tone-dark) !important;
+}
+
+.slide-nav-label {
+  color: rgba(47, 41, 35, 0.76) !important;
+}
+
+/* === NAV FIX (ALIGN + CLEAN GLASS) === */
+
+.slide-nav {
+  align-items: flex-start !important;
+  border-radius: 26px !important; /* было слишком круглое */
+  background: transparent !important; /* убираем плашку в неактиве */
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* активный hover — появляется glass */
+.slide-nav:hover {
+  background: rgba(255, 255, 255, 0.32) !important;
+  border: 1px solid rgba(255,255,255,0.45);
+  box-shadow:
+    0 18px 60px rgba(47,41,35,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* кнопки строго по левому краю */
+.slide-nav button {
+  justify-content: flex-start !important;
+  width: 100%;
+  padding-left: 2px;
+}
+
+/* полоски выравниваем */
+.slide-nav-dot {
+  width: 18px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+/* текст */
+.slide-nav-label {
+  text-align: left;
+}
+
+/* активный элемент */
+.slide-nav button.is-active .slide-nav-dot {
+  width: 22px;
+  background: #6f86ff !important;
+}
+
+
+/* === NAV: STRONG GLASS + BLACK TEXT === */
+
+.slide-nav {
+  color: #1e1e1e !important;
+}
+
+.slide-nav-label {
+  color: #1e1e1e !important;
+}
+
+.slide-nav button {
+  color: #1e1e1e !important;
+}
+
+/* усиленный glass при hover */
+.slide-nav:hover {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(28px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.4) !important;
+
+  border: 1px solid rgba(255,255,255,0.6) !important;
+
+  box-shadow:
+    0 25px 80px rgba(47,41,35,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+/* линии темнее */
+.slide-nav-dot {
+  background: rgba(30,30,30,0.35) !important;
+}
+
+.slide-nav:hover .slide-nav-dot {
+  background: rgba(30,30,30,0.45) !important;
+}
+
+/* активная */
+.slide-nav button.is-active .slide-nav-dot {
+  background: #5f75ff !important;
+}
+
+
+/* === NAV: DOTS + BOLDER TEXT === */
+
+/* точки вместо полос */
+.slide-nav-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: rgba(30,30,30,0.35) !important;
+}
+
+/* при hover чуть заметнее */
+.slide-nav:hover .slide-nav-dot {
+  background: rgba(30,30,30,0.5) !important;
+}
+
+/* активная — вытянутая (оставляем акцент) */
+.slide-nav button.is-active .slide-nav-dot {
+  width: 22px !important;
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: #5f75ff !important;
+}
+
+/* текст жирнее */
+.slide-nav-label {
+  font-weight: 500 !important;
+  letter-spacing: 0.02em;
+}
+
+/* ещё чуть плотнее */
+.slide-nav button {
+  font-weight: 500 !important;
+}
+

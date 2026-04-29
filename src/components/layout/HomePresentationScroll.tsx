@@ -58,7 +58,7 @@ export function HomePresentationScroll({ children }: Props) {
 
       window.setTimeout(() => {
         locked = false;
-      }, 520);
+      }, 380);
     };
 
     const go = (direction: 1 | -1) => {
@@ -69,7 +69,7 @@ export function HomePresentationScroll({ children }: Props) {
 
         window.setTimeout(() => {
           locked = false;
-        }, 520);
+        }, 380);
 
         return Math.max(0, Math.min(getMax(), current + direction));
       });
