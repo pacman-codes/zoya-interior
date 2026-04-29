@@ -194,3 +194,18 @@ body:has(.presentation-viewport) > div > footer {
     display: block;
   }
 }
+
+/* === FONTS === */
+
+:root {
+  --font-display: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
