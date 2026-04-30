@@ -67,29 +67,29 @@ export function ProjectsPresentationPage() {
   const [modalProject, setModalProject] = useState<Project | null>(null);
 
   return (
-    <ProjectsScroll count={projects.length} labels={projects.map((p) => p.title)}>
-      {(activeIndex) => (
-        <>
-          <div className="relative h-full w-full">
+    <>
+      <ProjectsScroll count={projects.length} labels={projects.map((p) => p.title)}>
+        {(activeIndex) => (
+          <>
             {projects.map((project, index) => {
               const isActive = index === activeIndex;
-              const distance = Math.abs(index - activeIndex);
 
               return (
                 <section
                   key={project.title}
-                  className="absolute inset-0 grid h-[100svh] grid-cols-1 items-center gap-8 px-5 pt-24 pb-8 md:grid-cols-[1.1fr_0.9fr] md:px-12 lg:px-24"
-                  style={{
-                    transform: `translateY(${(index - activeIndex) * 100}%)`,
-                    opacity: distance > 1 ? 0 : isActive ? 1 : 0.35,
-                    filter: isActive ? 'none' : 'saturate(0.6)',
-                  }}
+                  data-slide="true"
+                  className={[
+                    'grid h-[100svh] shrink-0 grid-cols-1 items-center gap-8 px-5 pt-24 pb-8 transition duration-500 md:grid-cols-[1.1fr_0.9fr] md:px-12 lg:px-24',
+                    isActive ? 'opacity-100 saturate-100' : 'opacity-35 saturate-50',
+                  ].join(' ')}
                 >
                   <div className="relative h-[46svh] overflow-hidden rounded-[2rem] md:h-[74svh]">
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
+                      priority={index === 0}
+                      sizes="(max-width: 768px) 100vw, 58vw"
                       className="object-cover"
                     />
                   </div>
@@ -106,16 +106,20 @@ export function ProjectsPresentationPage() {
                     <p className="mt-6 text-[#6f6255]">{project.description}</p>
 
                     <div className="mt-6 flex flex-wrap gap-2">
-                      {project.details.map((d) => (
-                        <span key={d} className="rounded-full border px-4 py-2 text-xs">
-                          {d}
+                      {project.details.map((detail) => (
+                        <span
+                          key={detail}
+                          className="rounded-full border border-[#d6c8b7] px-4 py-2 text-xs tracking-[0.12em] text-[#7c6c5d] uppercase"
+                        >
+                          {detail}
                         </span>
                       ))}
                     </div>
 
                     <button
+                      type="button"
                       onClick={() => setModalProject(project)}
-                      className="mt-8 rounded-full bg-[#2d241d] px-6 py-3 text-white"
+                      className="mt-8 rounded-full bg-[#2d241d] px-6 py-3 text-white transition hover:bg-[#4a3b30]"
                     >
                       Смотреть проект
                     </button>
@@ -123,24 +127,37 @@ export function ProjectsPresentationPage() {
                 </section>
               );
             })}
-          </div>
+          </>
+        )}
+      </ProjectsScroll>
 
-          {modalProject && (
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur"
+      {modalProject && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur"
+          onClick={() => setModalProject(null)}
+        >
+          <div
+            className="relative max-w-4xl overflow-hidden rounded-3xl bg-white p-6 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
               onClick={() => setModalProject(null)}
+              className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/80 text-2xl"
             >
-              <div
-                className="relative max-w-4xl rounded-3xl bg-white p-6"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button onClick={() => setModalProject(null)}>×</button>
-                <Image src={modalProject.modalImage} alt="" width={800} height={500} />
-              </div>
-            </div>
-          )}
-        </>
+              ×
+            </button>
+
+            <Image
+              src={modalProject.modalImage}
+              alt={modalProject.title}
+              width={900}
+              height={560}
+              className="rounded-2xl object-cover"
+            />
+          </div>
+        </div>
       )}
-    </ProjectsScroll>
+    </>
   );
 }

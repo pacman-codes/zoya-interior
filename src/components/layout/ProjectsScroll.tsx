@@ -10,8 +10,8 @@ type ProjectsScrollProps = {
 
 export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
-  const touchStartY = useRef<number | null>(null);
   const [activeIndex, setActiveIndexState] = useState(0);
+  const [slideHeight, setSlideHeight] = useState(0);
 
   const setActiveIndex = (index: number) => {
     setActiveIndexState(Math.max(0, Math.min(count - 1, index)));
@@ -20,6 +20,11 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
+
+    const updateHeight = () => setSlideHeight(viewport.clientHeight);
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
 
     const previousBodyOverflow = document.body.style.overflow;
     const previousHtmlOverflow = document.documentElement.style.overflow;
@@ -48,6 +53,7 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
       event.stopPropagation();
 
       if (Math.abs(event.deltaY) < 8) return;
+
       go(event.deltaY > 0 ? 1 : -1);
     };
 
@@ -63,27 +69,9 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
       }
     };
 
-    const onTouchStart = (event: TouchEvent) => {
-      touchStartY.current = event.touches[0]?.clientY ?? null;
-    };
-
-    const onTouchEnd = (event: TouchEvent) => {
-      if (touchStartY.current === null) return;
-
-      const endY = event.changedTouches[0]?.clientY ?? touchStartY.current;
-      const diff = touchStartY.current - endY;
-
-      touchStartY.current = null;
-
-      if (Math.abs(diff) < 40) return;
-      go(diff > 0 ? 1 : -1);
-    };
-
     viewport.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
 
     return () => {
       document.body.style.overflow = previousBodyOverflow;
@@ -92,14 +80,22 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
       viewport.removeEventListener('wheel', onWheel);
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('resize', updateHeight);
     };
   }, [count]);
 
   return (
-    <div ref={viewportRef} className="relative h-[100svh] overflow-hidden bg-[#efe7dc] text-[#2d241d]">
-      {children(activeIndex, setActiveIndex)}
+    <>
+      <div ref={viewportRef} className="presentation-viewport bg-[#efe7dc] text-[#2d241d]">
+        <div
+          className="presentation-track"
+          style={{
+            transform: `translate3d(0, -${activeIndex * slideHeight}px, 0)`,
+          }}
+        >
+          {children(activeIndex, setActiveIndex)}
+        </div>
+      </div>
 
       <nav className="fixed left-7 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-6 lg:flex">
         {labels.map((label, index) => {
@@ -129,6 +125,6 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
           );
         })}
       </nav>
-    </div>
+    </>
   );
 }
