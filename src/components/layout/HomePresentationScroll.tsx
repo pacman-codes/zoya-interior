@@ -103,7 +103,7 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
         </div>
       </div>
 
-      <nav className="fixed left-6 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
+      <nav className="fixed left-6 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 rounded-full border border-white/12 bg-white/8 px-2 py-3 shadow-[0_18px_55px_rgba(45,36,29,0.18)] backdrop-blur-xl lg:flex">
         {slides.map((label, itemIndex) => {
           const isActive = itemIndex === index;
 
@@ -119,12 +119,12 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
                 className={[
                   "block rounded-full border transition-all duration-300",
                   isActive
-                    ? "h-3 w-3 border-[#a68f7a] bg-[#a68f7a] shadow-[0_0_0_9px_rgba(166,143,122,0.18)]"
-                    : "h-2.5 w-2.5 border-[#a68f7a]/55 bg-[#efe7dc]/70 shadow-sm group-hover:bg-[#a68f7a]/65",
+                    ? "h-3.5 w-3.5 border-white/55 bg-[#d8c6b4] shadow-[0_0_0_10px_rgba(216,198,180,0.20),0_0_24px_rgba(255,244,232,0.62)]"
+                    : "h-2.5 w-2.5 border-white/35 bg-white/45 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),0_6px_18px_rgba(45,36,29,0.16)] group-hover:bg-[#d8c6b4]/75",
                 ].join(" ")}
               />
 
-              <span className="pointer-events-none absolute left-9 top-1/2 -translate-y-1/2 rounded-full border border-[#ded2c4] bg-[#f4ede4]/90 px-3 py-1 text-[11px] tracking-[0.18em] whitespace-nowrap text-[#6d5d4f] uppercase opacity-0 shadow-sm backdrop-blur-md transition group-hover:opacity-100 group-focus-visible:opacity-100">
+              <span className="pointer-events-none absolute left-10 top-1/2 -translate-y-1/2 rounded-full border border-white/35 bg-white/16 px-5 py-2 text-[11px] tracking-[0.22em] whitespace-nowrap text-white uppercase opacity-0 shadow-[0_18px_50px_rgba(45,36,29,0.28),inset_0_1px_1px_rgba(255,255,255,0.28)] backdrop-blur-xl transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                 {label}
               </span>
             </button>
