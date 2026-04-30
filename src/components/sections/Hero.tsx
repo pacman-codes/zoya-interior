@@ -46,14 +46,14 @@ export function Hero({ locale }: Props) {
           <div className="mt-9 flex justify-center gap-4">
             <a
               href={`/projects?lang=${locale}`}
-              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-white backdrop-blur-sm transition hover:bg-[#2d241d] hover:text-white"
+              className="rounded-full border border-white/45 bg-[#2d241d]/42 px-8 py-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.18)] backdrop-blur-sm transition hover:bg-[#2d241d]/62 hover:border-white/55"
             >
               {isRu ? "Смотреть проекты" : "View projects"}
             </a>
 
             <a
               href="#contact"
-              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-white backdrop-blur-sm transition hover:bg-white/20"
+              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-white backdrop-blur-sm transition hover:bg-white/20 hover:border-white/55"
             >
               {isRu ? "Обсудить проект" : "Discuss project"}
             </a>
