@@ -107,8 +107,8 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
                 className={[
                   'block rounded-full border transition-all duration-300',
                   isActive
-                    ? 'h-2.5 w-2.5 border-[#8f7a68]/70 bg-[#a68f7a] shadow-[0_0_13px_6px_rgba(166,143,122,0.28),0_0_30px_10px_rgba(166,143,122,0.16)]'
-                    : 'h-2.5 w-2.5 border-[#9b8774]/55 bg-[#c9b8a7]/72 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),0_4px_10px_rgba(45,36,29,0.18)] group-hover:bg-[#a68f7a]/85',
+                    ? 'h-2.5 w-2.5 border-[#f1d9bf]/90 bg-[#e8c9a8] shadow-[0_0_10px_4px_rgba(232,201,168,0.45),0_0_22px_8px_rgba(232,201,168,0.25)]'
+                    : 'h-2.5 w-2.5 border-[#2d241d]/80 bg-[#2d241d]/80 shadow-[0_3px_8px_rgba(0,0,0,0.25)] group-hover:bg-[#e8c9a8]/70',
                 ].join(' ')}
               />
 
