@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Locale } from "@/i18n";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -10,8 +11,12 @@ type Props = {
 export function SiteShell({ locale, children }: Props) {
   return (
     <div className="min-h-screen">
-      <Header locale={locale} />
+      <Suspense fallback={null}>
+        <Header locale={locale} />
+      </Suspense>
+
       <main>{children}</main>
+
       <Footer locale={locale} />
     </div>
   );

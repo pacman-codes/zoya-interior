@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
+  initialSlide?: number;
 };
 
 const slides = [
@@ -16,26 +16,11 @@ const slides = [
   "Контакты",
 ];
 
-function getInitialSlide(slide: string | null) {
-  if (slide === "projects") return 1;
-  if (slide === "about") return 2;
-  if (slide === "services") return 3;
-  if (slide === "team") return 4;
-  if (slide === "contacts") return 5;
-  return 0;
-}
-
-export function HomePresentationScroll({ children }: Props) {
-  const searchParams = useSearchParams();
+export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
-  const [index, setIndex] = useState(() => getInitialSlide(searchParams.get("slide")));
+  const [index, setIndex] = useState(initialSlide);
   const [slideHeight, setSlideHeight] = useState(0);
   const [isNavVisible, setIsNavVisible] = useState(true);
-
-  useEffect(() => {
-    const next = getInitialSlide(searchParams.get("slide"));
-    setIndex(next);
-  }, [searchParams]);
 
   useEffect(() => {
     document.body.dataset.slideIndex = String(index);
@@ -59,11 +44,15 @@ export function HomePresentationScroll({ children }: Props) {
     document.documentElement.style.overflow = "hidden";
 
     let locked = false;
-    let hideTimer: ReturnType<typeof window.setTimeout>;
+    let hideTimer: number | undefined;
 
     const showNavTemporarily = () => {
       setIsNavVisible(true);
-      window.clearTimeout(hideTimer);
+
+      if (hideTimer) {
+        window.clearTimeout(hideTimer);
+      }
+
       hideTimer = window.setTimeout(() => {
         setIsNavVisible(false);
       }, 1600);
@@ -120,7 +109,11 @@ export function HomePresentationScroll({ children }: Props) {
     return () => {
       document.body.style.overflow = originalBodyOverflow;
       document.documentElement.style.overflow = originalHtmlOverflow;
-      window.clearTimeout(hideTimer);
+
+      if (hideTimer) {
+        window.clearTimeout(hideTimer);
+      }
+
       viewport.removeEventListener("wheel", onWheel);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
