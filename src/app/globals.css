@@ -51,7 +51,8 @@ h4 {
   letter-spacing: -0.035em;
 }
 
-/* Header only on first slide */
+/* Header */
+
 header {
   position: fixed;
   z-index: 60;
@@ -63,31 +64,22 @@ header {
   transition: opacity 240ms ease, transform 240ms ease;
 }
 
-header > * {
-  min-height: 44px !important;
-}
-
-header nav,
-header a,
-header button {
-  font-size: 11px !important;
-}
-
 body[data-slide-index]:not([data-slide-index="0"]) header {
   opacity: 0;
   pointer-events: none;
   transform: translateY(-100%);
 }
 
-/* Presentation system */
+/* Presentation */
+
 html:has(.presentation-viewport),
 body:has(.presentation-viewport) {
   height: 100%;
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 body:has(.presentation-viewport) > div > footer {
-  display: none !important;
+  display: none;
 }
 
 .presentation-viewport {
@@ -125,6 +117,8 @@ body:has(.presentation-viewport) > div > footer {
   padding-top: 22px;
 }
 
+/* Last slide */
+
 .last-slide-inner {
   position: relative;
   display: flex;
@@ -134,7 +128,15 @@ body:has(.presentation-viewport) > div > footer {
   justify-content: center;
 }
 
-/* Left minimal navigation */
+.last-slide-inner > div:last-child {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+}
+
+/* Slide nav */
+
 .slide-nav {
   position: fixed;
   z-index: 80;
@@ -211,7 +213,42 @@ body:has(.presentation-viewport) > div > footer {
   opacity: 1;
 }
 
-/* Shared effects */
+/* Footer */
+
+.footer-social-link {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  color: var(--tone-dark);
+  transition:
+    transform 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.footer-social-link:hover {
+  transform: translateY(-3px);
+  background: var(--tone-dark);
+  color: white;
+  border-color: var(--tone-dark);
+}
+
+.footer-social-text {
+  width: auto;
+  min-width: 54px;
+  padding: 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Motion */
+
 .reveal-block {
   animation: softReveal 700ms ease both;
 }
@@ -228,11 +265,14 @@ body:has(.presentation-viewport) > div > footer {
   }
 }
 
+/* Mobile */
+
 @media (prefers-reduced-motion: reduce) {
   .presentation-track,
-  .reveal-block {
-    animation: none !important;
-    transition: none !important;
+  .reveal-block,
+  .footer-social-link {
+    animation: none;
+    transition: none;
   }
 }
 
@@ -240,7 +280,7 @@ body:has(.presentation-viewport) > div > footer {
   html:has(.presentation-viewport),
   body:has(.presentation-viewport) {
     height: auto;
-    overflow: auto !important;
+    overflow: auto;
   }
 
   header {
@@ -275,29 +315,175 @@ body:has(.presentation-viewport) > div > footer {
   }
 }
 
-/* === HERO CTA READABILITY FIX === */
+/* === REACTIVE NAV + WARM ACTIVE COLOR === */
 
-#hero a[href="#contact"],
-#hero a[href*="contact"] {
-  background: rgba(255, 255, 255, 0.96) !important;
-  color: var(--tone-dark) !important;
-  border: 1px solid rgba(255, 255, 255, 0.72) !important;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+.slide-nav button.is-active .slide-nav-dot {
+  background: #a68f7a;
 }
 
-#hero a[href="#contact"]:hover,
-#hero a[href*="contact"]:hover {
-  background: var(--tone-dark) !important;
-  color: #fff !important;
-  border-color: var(--tone-dark) !important;
+.slide-nav button:hover .slide-nav-dot {
+  background: #a68f7a;
 }
 
-#hero a[href="#contact"]:hover *,
-#hero a[href*="contact"]:hover * {
-  color: #fff !important;
+.slide-nav {
+  opacity: 0.42;
+  transform: translateY(-50%) translateX(-6px);
 }
 
-#hero a:first-of-type {
-  background: var(--tone-dark) !important;
-  color: #fff !important;
+.slide-nav.is-visible,
+.slide-nav:hover {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.slide-nav.is-idle .slide-nav-label {
+  max-width: 0;
+  opacity: 0;
+}
+
+.slide-nav.is-idle:not(:hover) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.slide-nav.is-idle:not(:hover) .slide-nav-dot {
+  background: rgba(47, 41, 35, 0.24);
+}
+
+.slide-nav.is-idle:not(:hover) button.is-active .slide-nav-dot {
+  width: 22px;
+  height: 4px;
+  background: #a68f7a;
+}
+
+/* === SAFE CONTENT WIDTH AFTER LEFT SLIDE NAV === */
+
+.presentation-slide:not(:first-child) {
+  padding-left: 96px;
+  padding-right: 72px;
+}
+
+.presentation-slide:not(:first-child) > section,
+.presentation-slide:not(:first-child) > div {
+  max-width: 1480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1200px) {
+  .presentation-slide:not(:first-child) {
+    padding-left: 84px;
+    padding-right: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .presentation-slide:not(:first-child) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* === COMPOSITION PASS: CENTER MAIN SECTIONS === */
+
+/* hide side navigation on hero */
+body[data-slide-index="0"] .slide-nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* shared non-hero content alignment */
+.presentation-slide:not(:first-child) {
+  align-items: center;
+  padding-left: 110px;
+  padding-right: 82px;
+}
+
+/* projects */
+.presentation-slide #projects > div {
+  justify-content: center;
+  transform: translateY(-10px);
+}
+
+/* zoya intro */
+#zoya-intro,
+#about {
+  width: 100%;
+}
+
+#zoya-intro > div,
+#about > div {
+  transform: translateY(-18px);
+}
+
+/* services/process */
+#services-process > div {
+  transform: translateY(-8px);
+}
+
+/* team */
+#team > div {
+  transform: translateY(-24px);
+}
+
+#team .grid {
+  align-items: start;
+}
+
+/* contact / last slide */
+.last-slide-inner {
+  justify-content: center;
+}
+
+#project-cta {
+  width: 100%;
+  transform: translateY(-34px);
+}
+
+#project-cta > div {
+  align-items: center;
+}
+
+.last-slide-inner > div:last-child {
+  bottom: 56px;
+}
+
+.last-slide-inner footer {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* footer visual tightening */
+.last-slide-inner footer > div {
+  gap: 12px;
+}
+
+.last-slide-inner footer .footer-social-link {
+  width: 38px;
+  height: 38px;
+}
+
+.last-slide-inner footer .text-center {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* keep mobile normal */
+@media (max-width: 768px) {
+  .presentation-slide:not(:first-child) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #project-cta,
+  #team > div,
+  #services-process > div,
+  #zoya-intro > div,
+  #about > div,
+  .presentation-slide #projects > div {
+    transform: none;
+  }
 }

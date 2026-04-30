@@ -19,6 +19,7 @@ export function HomePresentationScroll({ children }: Props) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
   const [slideHeight, setSlideHeight] = useState(0);
+  const [isNavVisible, setIsNavVisible] = useState(true);
 
   useEffect(() => {
     document.body.dataset.slideIndex = String(index);
@@ -42,6 +43,17 @@ export function HomePresentationScroll({ children }: Props) {
     document.documentElement.style.overflow = "hidden";
 
     let locked = false;
+    let hideTimer: ReturnType<typeof window.setTimeout>;
+
+    const showNavTemporarily = () => {
+      setIsNavVisible(true);
+      window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(() => {
+        setIsNavVisible(false);
+      }, 1600);
+    };
+
+    showNavTemporarily();
 
     const getMax = () => {
       return Math.max(0, viewport.querySelectorAll("[data-slide='true']").length - 1);
@@ -81,17 +93,20 @@ export function HomePresentationScroll({ children }: Props) {
 
       if (Math.abs(event.deltaY) < 6) return;
 
+      showNavTemporarily();
       go(event.deltaY > 0 ? 1 : -1);
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
         event.preventDefault();
+        showNavTemporarily();
         go(1);
       }
 
       if (event.key === "ArrowUp" || event.key === "PageUp") {
         event.preventDefault();
+        showNavTemporarily();
         go(-1);
       }
     };
@@ -103,6 +118,7 @@ export function HomePresentationScroll({ children }: Props) {
     return () => {
       document.body.style.overflow = originalBodyOverflow;
       document.documentElement.style.overflow = originalHtmlOverflow;
+      window.clearTimeout(hideTimer);
       viewport.removeEventListener("wheel", onWheel);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
@@ -124,7 +140,11 @@ export function HomePresentationScroll({ children }: Props) {
         </div>
       </div>
 
-      <nav className="slide-nav" aria-label="Навигация по главной">
+      <nav
+        className={`slide-nav ${isNavVisible ? "is-visible" : "is-idle"}`}
+        aria-label="Навигация по главной"
+        onMouseEnter={() => setIsNavVisible(true)}
+      >
         {slides.map((label, itemIndex) => (
           <button
             key={label}
