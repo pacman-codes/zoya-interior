@@ -12,23 +12,24 @@ export function Header({ locale }: { locale: "ru" | "en" }) {
   ];
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/5 bg-[var(--bg-main)]/80 backdrop-blur-md">
-      <div className="relative mx-auto flex h-11 max-w-[1200px] items-center px-6">
-        <nav className="absolute left-1/2 flex -translate-x-1/2 items-center gap-10 text-[11px] uppercase tracking-[0.18em] text-[var(--tone-dark)]">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="transition hover:opacity-60"
-            >
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/5 bg-[var(--bg-main)]/88 backdrop-blur-md">
+      <div className="mx-auto flex h-11 max-w-[1200px] items-center justify-between px-5 md:relative md:px-6">
+        <Link
+          href={`/?lang=${locale}`}
+          className="text-[11px] uppercase tracking-[0.2em] text-[var(--tone-dark)]"
+        >
+          Studio
+        </Link>
+
+        <nav className="hidden items-center gap-10 text-[11px] uppercase tracking-[0.18em] text-[var(--tone-dark)] md:absolute md:left-1/2 md:flex md:-translate-x-1/2">
+          {items.slice(1).map((item) => (
+            <Link key={item.href} href={item.href} className="transition hover:opacity-60">
               {locale === "ru" ? item.ru : item.en}
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto">
-          <LanguageSwitcher locale={locale} />
-        </div>
+        <LanguageSwitcher locale={locale} />
       </div>
     </header>
   );

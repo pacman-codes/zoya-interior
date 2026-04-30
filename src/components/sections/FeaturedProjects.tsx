@@ -39,8 +39,57 @@ export function FeaturedProjects({ locale }: Props) {
 
   return (
     <Section id="projects" className="!py-0">
-      <div className="mx-auto flex h-full w-full max-w-[92rem] flex-col justify-center">
-        <div className="grid gap-x-8 gap-y-7 lg:grid-cols-2 lg:grid-rows-2">
+      <div className="mx-auto flex h-full w-full max-w-[92rem] flex-col justify-center overflow-hidden">
+        <div className="block lg:hidden">
+          <div className="touch-pan-x snap-x snap-mandatory overflow-x-auto overflow-y-hidden px-[9vw] pb-5 [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain] [scroll-padding-left:9vw] [scroll-padding-right:9vw] [scrollbar-width:none]">
+            <div className="flex gap-4">
+              {projects.map((project, index) => (
+                <article
+                  key={project.title}
+                  className="shrink-0 snap-center"
+                  style={{
+                    width: "82vw",
+                    minWidth: "82vw",
+                    maxWidth: "82vw",
+                    flexBasis: "82vw",
+                  }}
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
+                    <Image
+                      src={project.img}
+                      alt={project.title}
+                      fill
+                      priority={index === 0}
+                      sizes="82vw"
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <div className="mt-5 border-t border-[var(--line-soft)] pt-4">
+                    <p className="text-sm text-[var(--tone-muted)]">0{index + 1}</p>
+
+                    <h3 className="mt-6 font-display text-[38px] leading-[0.98] text-[var(--tone-dark)]">
+                      {project.title}
+                    </h3>
+
+                    <p className="mt-3 text-base leading-snug text-[var(--tone-muted)]">
+                      {project.meta}
+                    </p>
+
+                    <Link
+                      href={project.href}
+                      className="mt-5 inline-block border-b border-[var(--tone-dark)] text-base text-[var(--tone-dark)]"
+                    >
+                      {isRu ? "Смотреть проект" : "View project"}
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden gap-x-8 gap-y-7 lg:grid lg:grid-cols-2 lg:grid-rows-2">
           {projects.map((project, index) => (
             <Link
               key={project.title}
@@ -53,7 +102,7 @@ export function FeaturedProjects({ locale }: Props) {
                   alt={project.title}
                   fill
                   priority={index === 0}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="50vw"
                   className="object-cover transition duration-700 group-hover:scale-[1.035]"
                 />
               </div>
@@ -79,7 +128,7 @@ export function FeaturedProjects({ locale }: Props) {
           ))}
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-8 text-center lg:mt-6">
           <Link
             href={`/projects?lang=${locale}`}
             className="inline-block border-b border-[var(--tone-dark)] text-sm text-[var(--tone-dark)] transition hover:text-[var(--tone-muted)]"
