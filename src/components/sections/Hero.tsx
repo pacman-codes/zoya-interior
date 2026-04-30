@@ -46,7 +46,7 @@ export function Hero({ locale }: Props) {
           <div className="mt-9 flex justify-center gap-4">
             <a
               href={`/projects?lang=${locale}`}
-              className="rounded-full bg-[#2d241d] px-8 py-4 text-white transition hover:bg-[#3a2f27]"
+              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-white backdrop-blur-sm transition hover:bg-[#2d241d] hover:text-white"
             >
               {isRu ? "Смотреть проекты" : "View projects"}
             </a>
