@@ -1,15 +1,20 @@
-import { SiteShell } from "@/components/layout/SiteShell";
-import { ProjectsPresentationPage } from "@/components/sections/ProjectsPresentationPage";
-import { getLocale } from "@/lib/i18n";
+import { Header } from '@/components/layout/Header';
+import { ProjectsPresentationPage } from '@/components/sections/ProjectsPresentationPage';
 
-export default async function ProjectsPage(props: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const locale = await getLocale(props.searchParams);
+type ProjectsPageProps = {
+  searchParams?: Promise<{
+    lang?: string;
+  }>;
+};
+
+export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
+  const params = await searchParams;
+  const locale = params?.lang === 'en' ? 'en' : 'ru';
 
   return (
-    <SiteShell locale={locale}>
-      <ProjectsPresentationPage locale={locale} />
-    </SiteShell>
+    <>
+      <Header locale={locale} />
+      <ProjectsPresentationPage />
+    </>
   );
 }
