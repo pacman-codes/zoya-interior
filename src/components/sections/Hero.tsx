@@ -23,29 +23,37 @@ export function Hero({ locale }: Props) {
 
       <div className="relative z-10 flex h-full items-center justify-center px-6 text-center text-white">
         <div className="max-w-5xl">
-          <h1 className="font-display text-5xl leading-none sm:text-7xl">
-            {isRu
-              ? "Пространства,\nв которых хочется жить"
-              : "Spaces made\nfor living"}
+          <h1 className="font-display text-5xl leading-[0.95] sm:text-7xl">
+            {isRu ? (
+              <>
+                Пространства,<br />
+                в которых хочется жить
+              </>
+            ) : (
+              <>
+                Spaces made<br />
+                for living
+              </>
+            )}
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
             {isRu
-              ? "Дизайн жилых и коммерческих пространств. Работаем в Сочи и удаленно по всему миру."
+              ? "Жилые и коммерческие пространства в Сочи и по всему миру."
               : "Residential and commercial interior design. Based in Sochi, working worldwide."}
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <a
               href={`/projects?lang=${locale}`}
-              className="rounded-full bg-[var(--tone-dark)] px-8 py-4 text-sm font-medium text-white transition hover:bg-white hover:text-[var(--tone-dark)]"
+              className="rounded-full bg-[var(--tone-dark)] px-8 py-4 text-sm font-medium text-white transition hover:bg-[#3a2f27] hover:text-white"
             >
               {isRu ? "Смотреть проекты" : "View projects"}
             </a>
 
             <a
               href="#contact"
-              className="rounded-full bg-white/90 px-8 py-4 text-sm font-medium text-[var(--tone-dark)] transition hover:bg-[var(--tone-dark)] hover:text-white"
+              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white hover:text-[var(--tone-dark)]"
             >
               {isRu ? "Обсудить проект" : "Discuss project"}
             </a>
