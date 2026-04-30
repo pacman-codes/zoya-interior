@@ -37,23 +37,23 @@ export function Hero({ locale }: Props) {
             )}
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-white/80">
             {isRu
               ? "Жилые и коммерческие пространства в Сочи и по всему миру."
               : "Residential and commercial interior design. Based in Sochi, working worldwide."}
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-9 flex justify-center gap-4">
             <a
               href={`/projects?lang=${locale}`}
-              className="rounded-full bg-[var(--tone-dark)] px-8 py-4 text-sm font-medium text-white transition hover:bg-[#3a2f27] hover:text-white"
+              className="rounded-full bg-[#2d241d] px-8 py-4 text-white transition hover:bg-[#3a2f27]"
             >
               {isRu ? "Смотреть проекты" : "View projects"}
             </a>
 
             <a
               href="#contact"
-              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white hover:text-[var(--tone-dark)]"
+              className="rounded-full border border-white/40 bg-white/10 px-8 py-4 text-white backdrop-blur-sm transition hover:bg-white/20"
             >
               {isRu ? "Обсудить проект" : "Discuss project"}
             </a>
