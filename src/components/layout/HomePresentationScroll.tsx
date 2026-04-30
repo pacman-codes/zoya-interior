@@ -103,7 +103,7 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
         </div>
       </div>
 
-      <nav className="fixed left-5 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
+      <nav className="fixed left-6 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
         {slides.map((label, itemIndex) => {
           const isActive = itemIndex === index;
 
@@ -112,25 +112,19 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
               key={label}
               type="button"
               onClick={() => setIndex(itemIndex)}
-              className="group flex items-center gap-3 text-left"
+              className="group relative grid h-7 w-7 place-items-center"
               aria-label={label}
             >
               <span
                 className={[
-                  "block h-2.5 w-2.5 rounded-full border transition-all duration-300",
+                  "block rounded-full border transition-all duration-300",
                   isActive
-                    ? "scale-125 border-[#a68f7a] bg-[#a68f7a] shadow-[0_0_0_6px_rgba(166,143,122,0.16)]"
-                    : "border-[#a68f7a]/55 bg-[#2d241d]/18 opacity-80 group-hover:bg-[#a68f7a]/55",
+                    ? "h-3 w-3 border-[#a68f7a] bg-[#a68f7a] shadow-[0_0_0_9px_rgba(166,143,122,0.18)]"
+                    : "h-2.5 w-2.5 border-[#a68f7a]/55 bg-[#efe7dc]/70 shadow-sm group-hover:bg-[#a68f7a]/65",
                 ].join(" ")}
               />
-              <span
-                className={[
-                  "overflow-hidden whitespace-nowrap text-xs tracking-[0.18em] uppercase transition-all duration-300",
-                  isActive
-                    ? "max-w-[220px] text-[#8d7764]"
-                    : "max-w-0 text-[#8d7764] group-hover:max-w-[220px]",
-                ].join(" ")}
-              >
+
+              <span className="pointer-events-none absolute left-9 top-1/2 -translate-y-1/2 rounded-full border border-[#ded2c4] bg-[#f4ede4]/90 px-3 py-1 text-[11px] tracking-[0.18em] whitespace-nowrap text-[#6d5d4f] uppercase opacity-0 shadow-sm backdrop-blur-md transition group-hover:opacity-100 group-focus-visible:opacity-100">
                 {label}
               </span>
             </button>
