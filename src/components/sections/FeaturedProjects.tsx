@@ -14,26 +14,26 @@ export function FeaturedProjects({ locale }: Props) {
     {
       title: isRu ? "Квартира в Сочи" : "Apartment in Sochi",
       meta: isRu ? "Сочи · 82 м²" : "Sochi · 82 m²",
-      href: `/projects/sochi-apartment?lang=${locale}`,
+      href: `/projects?lang=${locale}`,
       img: "/images/projects/sochi-apartment/cover.jpg",
     },
     {
       title: isRu ? "Семейный дом" : "Family house",
       meta: isRu ? "Краснодарский край · 180 м²" : "Krasnodar region · 180 m²",
-      href: `/projects/family-house?lang=${locale}`,
+      href: `/projects?lang=${locale}`,
       img: "/images/projects/family-house/cover.jpg",
     },
     {
       title: isRu ? "Ресторан" : "Restaurant",
       meta: isRu ? "Сочи · 120 м²" : "Sochi · 120 m²",
-      href: `/projects/restaurant?lang=${locale}`,
+      href: `/projects?lang=${locale}`,
       img: "/images/projects/restaurant/cover.jpg",
     },
     {
       title: isRu ? "Офисное пространство" : "Office space",
       meta: isRu ? "Удаленный проект · 95 м²" : "Remote project · 95 m²",
-      href: `/projects/office-space?lang=${locale}`,
-      img: "/images/projects/office-space/cover.jpg",
+      href: `/projects?lang=${locale}`,
+      img: "/images/projects/office/cover.jpg",
     },
   ];
 

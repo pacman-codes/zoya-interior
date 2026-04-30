@@ -18,8 +18,11 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
   };
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     const unlock = () => {
       window.setTimeout(() => {
@@ -41,8 +44,15 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowDown' || event.key === 'PageDown') move(1);
-      if (event.key === 'ArrowUp' || event.key === 'PageUp') move(-1);
+      if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        move(1);
+      }
+
+      if (event.key === 'ArrowUp' || event.key === 'PageUp') {
+        event.preventDefault();
+        move(-1);
+      }
     };
 
     const onTouchStart = (event: TouchEvent) => {
@@ -51,9 +61,12 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
 
     const onTouchEnd = (event: TouchEvent) => {
       if (touchStartY.current === null) return;
+
       const endY = event.changedTouches[0]?.clientY ?? touchStartY.current;
       const diff = touchStartY.current - endY;
+
       touchStartY.current = null;
+
       if (Math.abs(diff) < 40) return;
       move(diff > 0 ? 1 : -1);
     };
@@ -64,7 +77,9 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
     window.addEventListener('touchend', onTouchEnd, { passive: true });
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('touchstart', onTouchStart);
@@ -92,14 +107,16 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
                 className={[
                   'block h-2.5 w-2.5 rounded-full border transition-all duration-300',
                   isActive
-                    ? 'scale-125 border-[#a68f7a] bg-[#a68f7a]'
-                    : 'border-[#b8aa9a] bg-transparent opacity-55',
+                    ? 'scale-125 border-[#a68f7a] bg-[#a68f7a] shadow-[0_0_0_6px_rgba(166,143,122,0.16)]'
+                    : 'border-[#a68f7a]/55 bg-[#2d241d]/18 opacity-80 group-hover:bg-[#a68f7a]/55',
                 ].join(' ')}
               />
               <span
                 className={[
-                  'max-w-0 overflow-hidden whitespace-nowrap text-xs tracking-[0.18em] uppercase transition-all duration-300 group-hover:max-w-[220px]',
-                  isActive ? 'text-[#a68f7a]' : 'text-[#8a7d70]',
+                  'overflow-hidden whitespace-nowrap text-xs tracking-[0.18em] uppercase transition-all duration-300',
+                  isActive
+                    ? 'max-w-[220px] text-[#8d7764]'
+                    : 'max-w-0 text-[#8d7764] group-hover:max-w-[220px]',
                 ].join(' ')}
               >
                 {label}
