@@ -119,7 +119,7 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
                 className={[
                   "block rounded-full border transition-all duration-300",
                   isActive
-                    ? "h-2.5 w-2.5 rounded-full border-[#f1d9bf]/90 bg-[#e8c9a8] shadow-[0_0_10px_4px_rgba(232,201,168,0.45),0_0_22px_8px_rgba(232,201,168,0.25)]"
+                    ? "h-3 w-3 rounded-full border-[#ffe0b8]/95 bg-[#ffc986] shadow-[0_0_12px_5px_rgba(255,201,134,0.5),0_0_26px_10px_rgba(255,201,134,0.28)]"
                     : "h-3 w-[2px] border-none bg-[#2d241d]/65 shadow-[0_2px_6px_rgba(0,0,0,0.2)] group-hover:bg-[#e8c9a8]/80",
                 ].join(" ")}
               />

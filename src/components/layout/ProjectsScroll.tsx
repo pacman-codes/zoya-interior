@@ -9,49 +9,57 @@ type ProjectsScrollProps = {
 };
 
 export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps) {
-  const [activeIndex, setActiveIndexState] = useState(0);
-  const lockRef = useRef(false);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
   const touchStartY = useRef<number | null>(null);
+  const [activeIndex, setActiveIndexState] = useState(0);
 
   const setActiveIndex = (index: number) => {
     setActiveIndexState(Math.max(0, Math.min(count - 1, index)));
   };
 
   useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
     const previousBodyOverflow = document.body.style.overflow;
     const previousHtmlOverflow = document.documentElement.style.overflow;
 
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
 
-    const unlock = () => {
-      window.setTimeout(() => {
-        lockRef.current = false;
-      }, 650);
-    };
+    let locked = false;
 
-    const move = (direction: 1 | -1) => {
-      if (lockRef.current) return;
-      lockRef.current = true;
-      setActiveIndexState((current) => Math.max(0, Math.min(count - 1, current + direction)));
-      unlock();
+    const go = (direction: 1 | -1) => {
+      if (locked) return;
+
+      locked = true;
+
+      setActiveIndexState((current) =>
+        Math.max(0, Math.min(count - 1, current + direction)),
+      );
+
+      window.setTimeout(() => {
+        locked = false;
+      }, 420);
     };
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
-      if (Math.abs(event.deltaY) < 20) return;
-      move(event.deltaY > 0 ? 1 : -1);
+      event.stopPropagation();
+
+      if (Math.abs(event.deltaY) < 8) return;
+      go(event.deltaY > 0 ? 1 : -1);
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') {
         event.preventDefault();
-        move(1);
+        go(1);
       }
 
       if (event.key === 'ArrowUp' || event.key === 'PageUp') {
         event.preventDefault();
-        move(-1);
+        go(-1);
       }
     };
 
@@ -68,9 +76,10 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
       touchStartY.current = null;
 
       if (Math.abs(diff) < 40) return;
-      move(diff > 0 ? 1 : -1);
+      go(diff > 0 ? 1 : -1);
     };
 
+    viewport.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('touchstart', onTouchStart, { passive: true });
@@ -80,6 +89,7 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
 
+      viewport.removeEventListener('wheel', onWheel);
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('touchstart', onTouchStart);
@@ -88,7 +98,7 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
   }, [count]);
 
   return (
-    <div className="relative h-[100svh] overflow-hidden bg-[#efe7dc] text-[#2d241d]">
+    <div ref={viewportRef} className="relative h-[100svh] overflow-hidden bg-[#efe7dc] text-[#2d241d]">
       {children(activeIndex, setActiveIndex)}
 
       <nav className="fixed left-7 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-6 lg:flex">
@@ -105,9 +115,9 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
             >
               <span
                 className={[
-                  'block rounded-full border transition-all duration-300',
+                  'block rounded-full transition-all duration-300',
                   isActive
-                    ? 'h-2.5 w-2.5 rounded-full border-[#f1d9bf]/90 bg-[#e8c9a8] shadow-[0_0_10px_4px_rgba(232,201,168,0.45),0_0_22px_8px_rgba(232,201,168,0.25)]'
+                    ? 'h-3 w-3 rounded-full border border-[#ffe0b8]/95 bg-[#ffc986] shadow-[0_0_12px_5px_rgba(255,201,134,0.5),0_0_26px_10px_rgba(255,201,134,0.28)]'
                     : 'h-3 w-[2px] border-none bg-[#2d241d]/65 shadow-[0_2px_6px_rgba(0,0,0,0.2)] group-hover:bg-[#e8c9a8]/80',
                 ].join(' ')}
               />
