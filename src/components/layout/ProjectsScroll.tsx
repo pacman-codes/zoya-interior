@@ -107,12 +107,12 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
                 className={[
                   'block rounded-full border transition-all duration-300',
                   isActive
-                    ? 'h-2.5 w-2.5 border-white/85 bg-[#f2dfc9] shadow-[0_0_13px_6px_rgba(236,197,150,0.34),0_0_30px_10px_rgba(236,197,150,0.18)]'
-                    : 'h-2.5 w-2.5 border-white/65 bg-[#efe7dc]/72 shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),0_4px_10px_rgba(45,36,29,0.16)] group-hover:bg-[#f2dfc9]/85',
+                    ? 'h-2.5 w-2.5 border-[#8f7a68]/70 bg-[#a68f7a] shadow-[0_0_13px_6px_rgba(166,143,122,0.28),0_0_30px_10px_rgba(166,143,122,0.16)]'
+                    : 'h-2.5 w-2.5 border-[#9b8774]/55 bg-[#c9b8a7]/72 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),0_4px_10px_rgba(45,36,29,0.18)] group-hover:bg-[#a68f7a]/85',
                 ].join(' ')}
               />
 
-              <span className="pointer-events-none absolute left-9 top-1/2 -translate-y-1/2 rounded-full border border-[#f6e4cf]/70 bg-[#2d241d]/34 px-6 py-2 text-[12px] tracking-[0.3em] whitespace-nowrap text-[#fff5ea] uppercase opacity-0 shadow-[0_0_20px_rgba(236,197,150,0.18),0_12px_34px_rgba(25,18,13,0.32),inset_0_1px_1px_rgba(255,255,255,0.34)] backdrop-blur-2xl transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+              <span className="pointer-events-none absolute left-9 top-1/2 -translate-y-1/2 rounded-full border border-white/45 bg-[#2d241d]/42 px-6 py-2 text-[12px] tracking-[0.3em] whitespace-nowrap text-[#fff5ea] uppercase opacity-0 shadow-[0_0_20px_rgba(236,197,150,0.18),0_12px_34px_rgba(25,18,13,0.32),inset_0_1px_1px_rgba(255,255,255,0.34)] backdrop-blur-2xl transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                 {label}
               </span>
             </button>
