@@ -91,7 +91,7 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
     <div className="relative h-[100svh] overflow-hidden bg-[#efe7dc] text-[#2d241d]">
       {children(activeIndex, setActiveIndex)}
 
-      <nav className="fixed left-6 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 rounded-full border border-white/12 bg-white/8 px-2 py-3 shadow-[0_18px_55px_rgba(45,36,29,0.18)] backdrop-blur-xl lg:flex">
+      <nav className="fixed left-8 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-9 lg:flex">
         {labels.map((label, index) => {
           const isActive = index === activeIndex;
 
@@ -100,19 +100,19 @@ export function ProjectsScroll({ count, labels, children }: ProjectsScrollProps)
               key={label}
               type="button"
               onClick={() => setActiveIndex(index)}
-              className="group relative grid h-7 w-7 place-items-center"
+              className="group relative grid h-8 w-8 place-items-center"
               aria-label={label}
             >
               <span
                 className={[
                   'block rounded-full border transition-all duration-300',
                   isActive
-                    ? 'h-3.5 w-3.5 border-white/55 bg-[#d8c6b4] shadow-[0_0_0_10px_rgba(216,198,180,0.20),0_0_24px_rgba(255,244,232,0.62)]'
-                    : 'h-2.5 w-2.5 border-white/35 bg-white/45 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),0_6px_18px_rgba(45,36,29,0.16)] group-hover:bg-[#d8c6b4]/75',
+                    ? 'h-5 w-5 border-white/75 bg-[#cbb7a4] shadow-[0_0_0_9px_rgba(203,183,164,0.22),0_0_32px_rgba(255,244,232,0.72)]'
+                    : 'h-4 w-4 border-white/55 bg-[#eee7dc]/78 shadow-[inset_0_1px_1px_rgba(255,255,255,0.55),0_8px_20px_rgba(45,36,29,0.20)] group-hover:bg-[#d8c6b4]/85',
                 ].join(' ')}
               />
 
-              <span className="pointer-events-none absolute left-10 top-1/2 -translate-y-1/2 rounded-full border border-white/35 bg-white/16 px-5 py-2 text-[11px] tracking-[0.22em] whitespace-nowrap text-white uppercase opacity-0 shadow-[0_18px_50px_rgba(45,36,29,0.28),inset_0_1px_1px_rgba(255,255,255,0.28)] backdrop-blur-xl transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+              <span className="pointer-events-none absolute left-14 top-1/2 -translate-y-1/2 rounded-full border border-[#f4e8dc]/75 bg-[#8c7a6a]/24 px-12 py-5 text-[clamp(1rem,1.9vw,2.2rem)] tracking-[0.32em] whitespace-nowrap text-white uppercase opacity-0 shadow-[0_24px_70px_rgba(25,18,13,0.34),inset_0_1px_1px_rgba(255,255,255,0.34)] backdrop-blur-2xl transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                 {label}
               </span>
             </button>
