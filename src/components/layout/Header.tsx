@@ -5,10 +5,10 @@ import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 export function Header({ locale }: { locale: "ru" | "en" }) {
   const items = [
-    { href: "/", ru: "Studio", en: "Studio" },
-    { href: "/projects", ru: "Проекты", en: "Projects" },
-    { href: "/services", ru: "Услуги", en: "Services" },
-    { href: "/contact", ru: "Контакты", en: "Contacts" },
+    { href: `/?lang=${locale}`, ru: "Studio", en: "Studio" },
+    { href: `/projects?lang=${locale}`, ru: "Проекты", en: "Projects" },
+    { href: `/services?lang=${locale}`, ru: "Услуги", en: "Services" },
+    { href: `/?lang=${locale}&slide=contacts`, ru: "Контакты", en: "Contacts" },
   ];
 
   return (
@@ -18,7 +18,7 @@ export function Header({ locale }: { locale: "ru" | "en" }) {
           {items.map((item) => (
             <Link
               key={item.href}
-              href={`${item.href}?lang=${locale}`}
+              href={item.href}
               className="transition hover:opacity-60"
             >
               {locale === "ru" ? item.ru : item.en}

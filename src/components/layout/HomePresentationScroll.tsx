@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -15,11 +16,26 @@ const slides = [
   "Контакты",
 ];
 
+function getInitialSlide(slide: string | null) {
+  if (slide === "projects") return 1;
+  if (slide === "about") return 2;
+  if (slide === "services") return 3;
+  if (slide === "team") return 4;
+  if (slide === "contacts") return 5;
+  return 0;
+}
+
 export function HomePresentationScroll({ children }: Props) {
+  const searchParams = useSearchParams();
   const viewportRef = useRef<HTMLDivElement | null>(null);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => getInitialSlide(searchParams.get("slide")));
   const [slideHeight, setSlideHeight] = useState(0);
   const [isNavVisible, setIsNavVisible] = useState(true);
+
+  useEffect(() => {
+    const next = getInitialSlide(searchParams.get("slide"));
+    setIndex(next);
+  }, [searchParams]);
 
   useEffect(() => {
     document.body.dataset.slideIndex = String(index);
@@ -57,20 +73,6 @@ export function HomePresentationScroll({ children }: Props) {
 
     const getMax = () => {
       return Math.max(0, viewport.querySelectorAll("[data-slide='true']").length - 1);
-    };
-
-    const goTo = (nextIndex: number) => {
-      if (locked) return;
-
-      locked = true;
-
-      setIndex(() => {
-        return Math.max(0, Math.min(getMax(), nextIndex));
-      });
-
-      window.setTimeout(() => {
-        locked = false;
-      }, 380);
     };
 
     const go = (direction: 1 | -1) => {
