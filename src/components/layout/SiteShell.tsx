@@ -6,9 +6,10 @@ import { Footer } from "./Footer";
 type Props = {
   locale: Locale;
   children: React.ReactNode;
+  hideFooter?: boolean;
 };
 
-export function SiteShell({ locale, children }: Props) {
+export function SiteShell({ locale, children, hideFooter = false }: Props) {
   return (
     <div className="min-h-screen">
       <Suspense fallback={null}>
@@ -17,7 +18,7 @@ export function SiteShell({ locale, children }: Props) {
 
       <main>{children}</main>
 
-      <Footer locale={locale} />
+      {!hideFooter ? <Footer locale={locale} /> : null}
     </div>
   );
 }

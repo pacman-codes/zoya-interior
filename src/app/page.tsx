@@ -29,7 +29,7 @@ export default async function Home(props: {
   const initialSlide = getInitialSlide(searchParams.slide);
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell locale={locale} hideFooter>
       <HomePresentationScroll initialSlide={initialSlide}>
         <div data-slide="true" className="presentation-slide">
           <Hero locale={locale} />
