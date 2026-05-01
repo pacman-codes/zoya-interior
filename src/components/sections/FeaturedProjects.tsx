@@ -41,44 +41,46 @@ export function FeaturedProjects({ locale }: Props) {
     <Section id="projects" className="!py-0">
       <div className="mx-auto flex h-full w-full max-w-[92rem] flex-col justify-center overflow-hidden">
         <div className="block lg:hidden">
-          <div className="touch-pan-x snap-x snap-mandatory overflow-x-auto overflow-y-hidden px-[9vw] pb-5 [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain] [scroll-padding-left:9vw] [scroll-padding-right:9vw] [scrollbar-width:none]">
+          <div className="overflow-x-auto overflow-y-hidden px-5 pb-4 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain]">
             <div className="flex gap-4">
               {projects.map((project, index) => (
                 <article
                   key={project.title}
-                  className="shrink-0 snap-center"
+                  className="shrink-0"
                   style={{
-                    width: "82vw",
-                    minWidth: "82vw",
-                    maxWidth: "82vw",
-                    flexBasis: "82vw",
+                    width: "78vw",
+                    minWidth: "78vw",
+                    maxWidth: "78vw",
+                    flexBasis: "78vw",
                   }}
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-black/5">
                     <Image
                       src={project.img}
                       alt={project.title}
                       fill
                       priority={index === 0}
-                      sizes="82vw"
+                      sizes="78vw"
                       className="object-cover"
                     />
                   </div>
 
                   <div className="mt-5 border-t border-[var(--line-soft)] pt-4">
-                    <p className="text-sm text-[var(--tone-muted)]">0{index + 1}</p>
+                    <p className="text-[13px] text-[var(--tone-muted)]">
+                      0{index + 1}
+                    </p>
 
-                    <h3 className="mt-6 font-display text-[38px] leading-[0.98] text-[var(--tone-dark)]">
+                    <h3 className="mt-5 font-display text-[38px] leading-[0.98] text-[var(--tone-dark)]">
                       {project.title}
                     </h3>
 
-                    <p className="mt-3 text-base leading-snug text-[var(--tone-muted)]">
+                    <p className="mt-3 text-[15px] leading-relaxed text-[var(--tone-muted)]">
                       {project.meta}
                     </p>
 
                     <Link
                       href={project.href}
-                      className="mt-5 inline-block border-b border-[var(--tone-dark)] text-base text-[var(--tone-dark)]"
+                      className="mt-5 inline-block border-b border-[var(--tone-dark)] text-[15px] text-[var(--tone-dark)]"
                     >
                       {isRu ? "Смотреть проект" : "View project"}
                     </Link>
@@ -86,6 +88,15 @@ export function FeaturedProjects({ locale }: Props) {
                 </article>
               ))}
             </div>
+          </div>
+
+          <div className="mt-2 flex justify-center gap-2">
+            {projects.map((project) => (
+              <span
+                key={project.title}
+                className="h-1.5 w-1.5 rounded-full bg-[var(--tone-dark)]/25"
+              />
+            ))}
           </div>
         </div>
 
