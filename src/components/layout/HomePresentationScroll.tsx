@@ -20,12 +20,35 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(initialSlide);
   const [slideHeight, setSlideHeight] = useState(0);
+  const [useNativeScroll, setUseNativeScroll] = useState(false);
 
   useEffect(() => {
+    const shouldUseNativeScroll =
+      window.matchMedia("(max-width: 768px)").matches ||
+      window.matchMedia("(hover: none)").matches ||
+      window.matchMedia("(pointer: coarse)").matches;
+
+    setUseNativeScroll(shouldUseNativeScroll);
+
+    if (shouldUseNativeScroll) {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      delete document.body.dataset.slideIndex;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (useNativeScroll) {
+      delete document.body.dataset.slideIndex;
+      return;
+    }
+
     document.body.dataset.slideIndex = String(index);
-  }, [index]);
+  }, [index, useNativeScroll]);
 
   useEffect(() => {
+    if (useNativeScroll) return;
+
     const viewport = viewportRef.current;
     if (!viewport) return;
 
@@ -90,7 +113,11 @@ export function HomePresentationScroll({ children, initialSlide = 0 }: Props) {
       window.removeEventListener("resize", updateHeight);
       delete document.body.dataset.slideIndex;
     };
-  }, []);
+  }, [useNativeScroll]);
+
+  if (useNativeScroll) {
+    return <>{children}</>;
+  }
 
   return (
     <>
