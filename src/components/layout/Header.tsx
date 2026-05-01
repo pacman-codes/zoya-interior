@@ -5,7 +5,6 @@ import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 export function Header({ locale }: { locale: "ru" | "en" }) {
   const items = [
-    { href: `/?lang=${locale}`, ru: "Studio", en: "Studio" },
     { href: `/projects?lang=${locale}`, ru: "Проекты", en: "Projects" },
     { href: `/services?lang=${locale}`, ru: "Услуги", en: "Services" },
     { href: `/?lang=${locale}&slide=contacts`, ru: "Контакты", en: "Contacts" },
@@ -16,13 +15,13 @@ export function Header({ locale }: { locale: "ru" | "en" }) {
       <div className="mx-auto flex h-11 max-w-[1200px] items-center justify-between px-5 md:relative md:px-6">
         <Link
           href={`/?lang=${locale}`}
-          className="text-[11px] uppercase tracking-[0.2em] text-[var(--tone-dark)]"
+          className="text-[11px] uppercase tracking-[0.22em] text-[var(--tone-dark)] transition hover:opacity-60"
         >
           Studio
         </Link>
 
         <nav className="hidden items-center gap-10 text-[11px] uppercase tracking-[0.18em] text-[var(--tone-dark)] md:absolute md:left-1/2 md:flex md:-translate-x-1/2">
-          {items.slice(1).map((item) => (
+          {items.map((item) => (
             <Link key={item.href} href={item.href} className="transition hover:opacity-60">
               {locale === "ru" ? item.ru : item.en}
             </Link>
